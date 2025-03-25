@@ -1,11 +1,10 @@
 import SwiftUI
 
 struct OutfitView: View {
-    let images: [String]
+    private let images: [String] = ["image1", "image2", "image3", "image4"]
     @State private var selectedImage: String
 
-    init(images: [String]) {
-        self.images = images
+    init() {
         self._selectedImage = State(initialValue: images.first ?? "")
     }
 
@@ -60,6 +59,6 @@ struct OutfitView: View {
 
 struct OutfitView_Previews: PreviewProvider {
     static var previews: some View {
-        OutfitView(images: ["image1", "image2", "image3", "image4"])
+        OutfitView()
     }
 }

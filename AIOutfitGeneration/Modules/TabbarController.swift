@@ -24,9 +24,8 @@ struct TabbarController: View {
                         Text("Лук")
                     }
                 }
-            
-//            WardrobeView()
-            EmptyWardrobeView()
+            WardrobeView()
+//            EmptyWardrobeView()
                 .tabItem {
                     VStack {
                         Image(uiImage: UIImage(named: "wardrobe")!)

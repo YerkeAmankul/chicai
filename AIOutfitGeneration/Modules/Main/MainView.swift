@@ -2,8 +2,10 @@ import SwiftUI
 import Lottie
 
 struct MainView: View {
-    @State var isLoading = false
-
+    @State private var isPresented = false
+    @State var selectedCategory: String?
+    private let categories = ["Повседневный", "Формальный", "Рабочый", "Домашний", "Религиозный", "Традиционный/Культурный"]
+        
     var body: some View {
         VStack {
             ZStack {
@@ -18,7 +20,12 @@ struct MainView: View {
                     .multilineTextAlignment(.center)
                     .padding(.horizontal)
                     .padding(.top, 250)
-            }.padding(.top, 100)
+            }
+            Spacer()
+            TagsView(tags: categories, selectedTag: $selectedCategory)
+                .background(Color("background"))
+                .cornerRadius(16)
+                .padding(.horizontal)
             Spacer()
             Button(action: generateOutfit) {
                 Text("Лук дня")
@@ -31,11 +38,18 @@ struct MainView: View {
                     .shadow(radius: 4)
             }
             .padding()
-        }.background(Color.white)
+            .sheet(isPresented: $isPresented) {
+                OutfitView()
+            }
+        }
+        .background(Color.white)
+        .onAppear {
+            selectedCategory = categories.first
+        }
     }
     
     private func generateOutfit() {
-        print("Генерируем лук дня...")
+        isPresented = true
     }
     
     private func makeThumbnailAnimation() async throws -> LottieAnimationSource? {
