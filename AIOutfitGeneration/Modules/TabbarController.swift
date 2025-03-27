@@ -19,7 +19,7 @@ struct EmptyTabbarController: View {
             EmptyWardrobeView(coordinator: coordinator)
                 .tabItem {
                     VStack {
-                        Image(uiImage: UIImage(named: "visor")!)
+                        Image(uiImage: UIImage(named: "visor")!.resized(to: CGSize(width: 40, height: 40)))
                             .renderingMode(.template)
                             .resizable()
                             .scaledToFit()
@@ -30,7 +30,7 @@ struct EmptyTabbarController: View {
             EmptyWardrobeView(coordinator: coordinator)
                 .tabItem {
                     VStack {
-                        Image(uiImage: UIImage(named: "wardrobe")!)
+                        Image(uiImage: UIImage(named: "wardrobe")!.resized(to: CGSize(width: 40, height: 40)))
                             .renderingMode(.template)
                             .resizable()
                             .scaledToFit()
@@ -60,22 +60,20 @@ struct TabbarController: View {
             MainView()
                 .tabItem {
                     VStack {
-                        Image(uiImage: UIImage(named: "visor")!)
+                        Image(uiImage: UIImage(named: "visor")!.resized(to: CGSize(width: 40, height: 40)))
                             .renderingMode(.template)
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 8, height: 8)
                         Text("Лук")
                     }
                 }
             WardrobeView()
                 .tabItem {
                     VStack {
-                        Image(uiImage: UIImage(named: "wardrobe")!)
+                        Image(uiImage: UIImage(named: "wardrobe")!.resized(to: CGSize(width: 40, height: 40)))
                             .renderingMode(.template)
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 24, height: 24)
                         Text("Гардероб")
                     }
                 }
@@ -99,6 +97,14 @@ struct AppView: View {
             EmptyTabbarController(coordinator: coordinator)
         } else {
             TabbarController()
+        }
+    }
+}
+
+extension UIImage {
+    func resized(to size: CGSize) -> UIImage {
+        UIGraphicsImageRenderer(size: size).image { _ in
+            self.draw(in: CGRect(origin: .zero, size: size))
         }
     }
 }

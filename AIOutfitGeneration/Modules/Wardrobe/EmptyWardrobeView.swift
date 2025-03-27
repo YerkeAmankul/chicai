@@ -130,7 +130,6 @@ extension EmptyWardrobeView {
                     }
                 Spacer()
             }
-            .frame(width: .infinity)
             .padding(24)
             .background(Color.white)
         }
