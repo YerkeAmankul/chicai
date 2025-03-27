@@ -9,9 +9,15 @@ import SwiftUI
 
 @main
 struct AIOutfitGenerationApp: App {
+    @StateObject private var coordinator = TabBarCoordinator()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            if coordinator.isEmptyWardrobe {
+                EmptyTabbarController(coordinator: coordinator)
+            } else {
+                TabbarController()
+            }
         }
     }
 }

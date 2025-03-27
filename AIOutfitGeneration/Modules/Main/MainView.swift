@@ -44,7 +44,9 @@ struct MainView: View {
         }
         .background(Color.white)
         .onAppear {
-            selectedCategory = categories.first
+            if selectedCategory == nil {
+                selectedCategory = categories.first
+            }
         }
     }
     
