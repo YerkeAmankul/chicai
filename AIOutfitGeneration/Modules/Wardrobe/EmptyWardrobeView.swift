@@ -11,7 +11,7 @@ struct EmptyWardrobeView: View {
     @State private var loadingCount = 0
     @State var isLoading = false
     @State private var startClassified = false
-    @ObservedObject var coordinator: TabBarCoordinator
+    @EnvironmentObject var coordinator: TabBarCoordinator
 
     var body: some View {
         VStack {
@@ -62,22 +62,27 @@ struct EmptyWardrobeView: View {
                 })
                 .presentationDetents([.fraction(0.18)])
             }
-            .sheet(isPresented: $showCamera) {
+            .fullScreenCover(isPresented: $showCamera) {
                 CameraView(images: $images)
             }
             .photosPicker(isPresented: $showGallery, selection: $selectedItems, matching: .images)
             .onChange(of: selectedItems) { _, _ in
                 loadImages()
             }
+            .onChange(of: images) { _, _ in
+                startClassified = true
+            }
         }
         .background(Color.white)
         .fullScreenCover(isPresented: $startClassified) {
-            AnimatedTextView(coordinator: coordinator)
+            let viewModel = ClassifyViewModel(coordinator: coordinator, images: images ?? [])
+            ClassifyClothesView(viewModel: viewModel)
+                .environmentObject(coordinator)
         }
     }
     
     func loadImages() {
-        images = []
+        var internalImages:[UIImage] = []
         loadingCount = selectedItems.count
         isLoading = true
         
@@ -85,12 +90,12 @@ struct EmptyWardrobeView: View {
             Task {
                 if let data = try? await item.loadTransferable(type: Data.self),
                    let uiImage = UIImage(data: data) {
-                    images?.append(uiImage)
+                    internalImages.append(uiImage)
                 }
                 loadingCount -= 1
                 if loadingCount == 0 {
                     isLoading = false
-                    startClassified = true
+                    images = internalImages
                 }
             }
         }
@@ -116,6 +121,7 @@ extension EmptyWardrobeView {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .font(.system(size: 16, weight: .bold, design: .monospaced))
                     .foregroundColor(Color.primary)
+                    .contentShape(Rectangle())
                     .onTapGesture {
                         onMakePhotot()
                     }
@@ -125,6 +131,7 @@ extension EmptyWardrobeView {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .font(.system(size: 16, weight: .bold, design: .monospaced))
                     .foregroundColor(Color.primary)
+                    .contentShape(Rectangle())
                     .onTapGesture {
                         onSelectFromGallery()
                     }

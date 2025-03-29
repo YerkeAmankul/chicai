@@ -12,10 +12,12 @@ struct CameraView: UIViewControllerRepresentable {
         }
 
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-            if let selectedImage = info[.originalImage] as? UIImage {
-                parent.images = [selectedImage]
-            }
             parent.presentationMode.wrappedValue.dismiss()
+            if let selectedImage = info[.originalImage] as? UIImage {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                    self.parent.images = [selectedImage]
+                }
+            }
         }
     }
 

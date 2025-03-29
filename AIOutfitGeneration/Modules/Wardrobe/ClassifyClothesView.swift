@@ -1,16 +1,19 @@
 import SwiftUI
 import Lottie
 
-struct AnimatedTextView: View {
+struct ClassifyClothesView: View {
     @State private var step = 1 {
         didSet {
             if step == 3 {
                 showNextStep()
-                coordinator.isEmptyWardrobe = false
             }
         }
     }
-    @ObservedObject var coordinator: TabBarCoordinator
+    @ObservedObject private var viewModel: ClassifyViewModel
+    
+    init(viewModel: ClassifyViewModel) {
+        self.viewModel = viewModel
+    }
     
     let texts = [
         "🕵️‍♂️ Анализируем ткань...",
@@ -32,7 +35,7 @@ struct AnimatedTextView: View {
                     ForEach(0..<texts.count, id: \.self) { index in
                         if step > index {
                             Text(texts[index])
-                                .font(.system(size: 20, weight: .medium, design: .monospaced))
+                                .font(.system(size: 16, weight: .medium, design: .monospaced))
                                 .foregroundColor(.primary)
                                 .padding(.vertical, 6)
                                 .frame(maxWidth: .infinity, alignment: .center)
@@ -52,10 +55,13 @@ struct AnimatedTextView: View {
                 .animation(.spring(response: 0.6, dampingFraction: 0.7), value: step)
                 .onAppear {
                     showNextStep()
+                    viewModel.startClassification()
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.white)
+        }.fullScreenCover(isPresented: $viewModel.isCloseNotFound) {
+            ClothesNotFoundView().environmentObject(viewModel.coordinator)
         }
     }
 

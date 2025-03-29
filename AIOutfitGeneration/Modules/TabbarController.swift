@@ -2,21 +2,21 @@ import SwiftUI
 
 struct EmptyTabbarController: View {
     
-    @ObservedObject var coordinator: TabBarCoordinator
+    @EnvironmentObject var coordinator: TabBarCoordinator
     
-    init(coordinator: TabBarCoordinator) {
+    init() {
         let tabBarAppearance = UITabBarAppearance()
         tabBarAppearance.backgroundColor = UIColor.white
         
         UITabBar.appearance().standardAppearance = tabBarAppearance
         UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
         UITabBar.appearance().unselectedItemTintColor = UIColor(named: "primary")!.withAlphaComponent(0.5)
-        self.coordinator = coordinator
     }
     
     var body: some View {
         TabView {
-            EmptyWardrobeView(coordinator: coordinator)
+            EmptyWardrobeView()
+                .environmentObject(coordinator)
                 .tabItem {
                     VStack {
                         Image(uiImage: UIImage(named: "visor")!.resized(to: CGSize(width: 40, height: 40)))
@@ -27,7 +27,8 @@ struct EmptyTabbarController: View {
                         Text("Лук")
                     }
                 }
-            EmptyWardrobeView(coordinator: coordinator)
+            EmptyWardrobeView()
+                .environmentObject(coordinator)
                 .tabItem {
                     VStack {
                         Image(uiImage: UIImage(named: "wardrobe")!.resized(to: CGSize(width: 40, height: 40)))
@@ -94,7 +95,8 @@ struct AppView: View {
 
     var body: some View {
         if coordinator.isEmptyWardrobe {
-            EmptyTabbarController(coordinator: coordinator)
+            EmptyTabbarController()
+                .environmentObject(coordinator)
         } else {
             TabbarController()
         }
