@@ -4,6 +4,7 @@ import VisionKit
 
 final class ClassifyViewModel: ObservableObject {
     @Published var isCloseNotFound: Bool = false
+    var isCloseNotFoundImages: [UIImage] = []
     let coordinator: TabBarCoordinator
     private let images: [UIImage]
     private var areThereImagesNotFound: Bool = false
@@ -17,12 +18,15 @@ final class ClassifyViewModel: ObservableObject {
     func startClassification() {
         Task {
             let results = await clothingClassifier?.classifyClothing(in: images)
-            var imagesForExtract: [(String, UIImage)] = []
+            var imagesForExtract: [(ClothingItem, UIImage)] = []
             for result in results ?? [] {
                 switch result {
                 case let .success(item):
                     imagesForExtract.append(item)
-                case .failure:
+                case let .failure(error):
+                    if let image = error.image {
+                        isCloseNotFoundImages.append(image)
+                    }
                     areThereImagesNotFound = true
                 }
             }
@@ -30,9 +34,9 @@ final class ClassifyViewModel: ObservableObject {
         }
     }
     
-    private func extractImage(images: [(String, UIImage)]) {
+    private func extractImage(images: [(ClothingItem, UIImage)]) {
         Task { @MainActor in
-            await withTaskGroup(of: (String, UIImage)?.self) { group in
+            await withTaskGroup(of: (ClothingItem, UIImage)?.self) { group in
                 for image in images {
                     let viewModel = ImageAnalysisViewModel()
                     group.addTask {
@@ -45,7 +49,7 @@ final class ClassifyViewModel: ObservableObject {
                         }
                     }
                 }
-                var extractedImages: [(String, UIImage)] = []
+                var extractedImages: [(ClothingItem, UIImage)] = []
                 for await extractedImage in group {
                     if let extractedImage {
                         extractedImages.append(extractedImage)
@@ -56,26 +60,25 @@ final class ClassifyViewModel: ObservableObject {
         }
     }
     
-    private func extractColor(images: [(String, UIImage)]) {
+    private func extractColor(images: [(ClothingItem, UIImage)]) {
+        var wardrobeItems: [WardrobeItem] = []
         images.forEach { item in
-            guard let image = item.1.cgImage else {
+            guard let image = item.1.cgImage,
+                  let fileName = WardrobeFileManager.shared.saveImage(image: item.1)
+            else {
                 return
             }
-            if let cgColor = try? DominantColors.dominantColors(image: image, algorithm: .CIE94).first {
-                Garderob.shared.clothes.append((item.0, cgColor, UIImage(cgImage: image)))
-                coordinator.isEmptyWardrobe = false
+            if let cgColor = try? DominantColors.dominantColors(image: image, algorithm: .CIE94).first?.toHexString() {
+                wardrobeItems.append(.init(item: item.0, color: cgColor, fileName: fileName))
             }
         }
+        WardrobeFileManager.shared.writeIfPossible(items: wardrobeItems)
         if areThereImagesNotFound == true {
             isCloseNotFound = true
+        } else {
+            coordinator.isEmptyWardrobe = false
         }
     }
-}
-
-class Garderob {
-    static let shared = Garderob()
-    var clothes: [(String, CGColor, UIImage)] = []
-    private init() {}
 }
 
 extension ClassifyViewModel {
@@ -94,4 +97,16 @@ extension ClassifyViewModel {
         }
     }
     
+}
+
+extension CGColor {
+    func toHexString() -> String? {
+        guard let components = self.components, components.count >= 3 else { return nil }
+
+        let r = Int(components[0] * 255)
+        let g = Int(components[1] * 255)
+        let b = Int(components[2] * 255)
+
+        return String(format: "#%02X%02X%02X", r, g, b)
+    }
 }

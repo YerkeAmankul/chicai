@@ -47,6 +47,8 @@ struct EmptyTabbarController: View {
 
 struct TabbarController: View {
     
+    @EnvironmentObject var coordinator: TabBarCoordinator
+    
     init() {
         let tabBarAppearance = UITabBarAppearance()
         tabBarAppearance.backgroundColor = UIColor.white
@@ -69,6 +71,7 @@ struct TabbarController: View {
                     }
                 }
             WardrobeView()
+                .environmentObject(coordinator)
                 .tabItem {
                     VStack {
                         Image(uiImage: UIImage(named: "wardrobe")!.resized(to: CGSize(width: 40, height: 40)))
@@ -84,21 +87,17 @@ struct TabbarController: View {
     }
 }
 
-struct TabbarController_Previews: PreviewProvider {
-    static var previews: some View {
-        AppView()
-    }
-}
-
 struct AppView: View {
     @StateObject private var coordinator = TabBarCoordinator()
 
     var body: some View {
-        if coordinator.isEmptyWardrobe {
+        if coordinator.isEmptyWardrobe && WardrobeFileManager.shared.read().isEmpty {
             EmptyTabbarController()
                 .environmentObject(coordinator)
         } else {
+            let _ = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController?.dismiss(animated: false)
             TabbarController()
+                .environmentObject(coordinator)
         }
     }
 }

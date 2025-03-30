@@ -13,6 +13,7 @@ struct OutfitView: View {
             Spacer()
             Image(selectedImage)
                 .resizable()
+                .aspectRatio(contentMode: .fit)
                 .shadow(radius: 5)
                 .background(Color("background"))
                 .clipShape(RoundedRectangle(cornerRadius: 12))
@@ -54,11 +55,5 @@ struct OutfitView: View {
                 .frame(height: 200)
             }
         }.background(Color.white)
-    }
-}
-
-struct OutfitView_Previews: PreviewProvider {
-    static var previews: some View {
-        OutfitView()
     }
 }

@@ -61,7 +61,8 @@ struct ClassifyClothesView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.white)
         }.fullScreenCover(isPresented: $viewModel.isCloseNotFound) {
-            ClothesNotFoundView().environmentObject(viewModel.coordinator)
+            ClothesNotFoundView(images: viewModel.isCloseNotFoundImages)
+                .environmentObject(viewModel.coordinator)
         }
     }
 

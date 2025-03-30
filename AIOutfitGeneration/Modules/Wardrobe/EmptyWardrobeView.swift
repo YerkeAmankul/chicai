@@ -110,35 +110,33 @@ struct EmptyWardrobeView: View {
     }
 }
 
-extension EmptyWardrobeView {
-    struct BottomSheetView: View {
-        var onMakePhotot: () -> Void
-        var onSelectFromGallery: () -> Void
-        var body: some View {
-            VStack(alignment: .leading) {
-                Text("Сделать снимок")
-                    .padding(.vertical, 12)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .font(.system(size: 16, weight: .bold, design: .monospaced))
-                    .foregroundColor(Color.primary)
-                    .contentShape(Rectangle())
-                    .onTapGesture {
-                        onMakePhotot()
-                    }
-                Divider().background(Color.tertiary)
-                Text("Выбрать из галереи")
-                    .padding(.vertical, 12)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .font(.system(size: 16, weight: .bold, design: .monospaced))
-                    .foregroundColor(Color.primary)
-                    .contentShape(Rectangle())
-                    .onTapGesture {
-                        onSelectFromGallery()
-                    }
-                Spacer()
-            }
-            .padding(24)
-            .background(Color.white)
+struct BottomSheetView: View {
+    var onMakePhotot: () -> Void
+    var onSelectFromGallery: () -> Void
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text("Сделать снимок")
+                .padding(.vertical, 12)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .font(.system(size: 16, weight: .bold, design: .monospaced))
+                .foregroundColor(Color.primary)
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    onMakePhotot()
+                }
+            Divider().background(Color.tertiary)
+            Text("Выбрать из галереи")
+                .padding(.vertical, 12)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .font(.system(size: 16, weight: .bold, design: .monospaced))
+                .foregroundColor(Color.primary)
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    onSelectFromGallery()
+                }
+            Spacer()
         }
+        .padding(24)
+        .background(Color.white)
     }
 }

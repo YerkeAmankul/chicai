@@ -9,7 +9,7 @@ struct ClothesNotFoundView: View {
         GridItem(.flexible(), spacing: 8)
     ]
     
-    let items = Array(1...10).map { "Item \($0)" }
+    let images: [UIImage]
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var coordinator: TabBarCoordinator
     
@@ -28,8 +28,10 @@ struct ClothesNotFoundView: View {
                 .padding(.horizontal)
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 8) {
-                    ForEach(items, id: \.self) { item in
-                        Text("")
+                    ForEach(images, id: \.self) { item in
+                        Image(uiImage: item)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
                             .frame(maxWidth: .infinity)
                             .frame(height: 100)
                             .background(Color("background"))
@@ -57,16 +59,9 @@ struct ClothesNotFoundView: View {
     
     private func close() {
         coordinator.isEmptyWardrobe = false
-//        coordinator.goToRoot = true
     }
  
     private func makeThumbnailAnimation() async throws -> LottieAnimationSource? {
         try await DotLottieFile.named("not_found").animationSource
-    }
-}
-
-struct ClothesNotFoundView_Previews: PreviewProvider {
-    static var previews: some View {
-        ClothesNotFoundView()
     }
 }

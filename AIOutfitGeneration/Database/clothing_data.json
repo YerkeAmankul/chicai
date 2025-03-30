@@ -1,0 +1,484 @@
+{
+  "items": [
+    {
+      "abaya": {
+        "season": ["fall", "winter", "spring"],
+        "weather": ["moderate", "cold"],
+        "event": ["religious", "cultural"],
+        "layer": ["outer"]
+      }
+    },
+    {
+      "academic gown": {
+        "season": ["spring", "summer", "fall"],
+        "weather": ["moderate"],
+        "event": ["formal"],
+        "layer": ["outer"]
+      }
+    },
+    {
+      "academic robe": {
+        "season": ["spring", "summer", "fall"],
+        "weather": ["moderate"],
+        "event": ["formal"],
+        "layer": ["outer"]
+      }
+    },
+    {
+      "judge's robe": {
+        "season": ["spring", "summer", "fall", "winter"],
+        "weather": ["moderate"],
+        "event": ["formal"],
+        "layer": ["outer"]
+      }
+    },
+    {
+      "apron": {
+        "season": ["spring", "summer", "fall", "winter"],
+        "weather": ["warm", "moderate", "cold"],
+        "event": ["home"],
+        "layer": ["outer"]
+      }
+    },
+    {
+      "cardigan": {
+        "season": ["fall", "winter", "spring"],
+        "weather": ["moderate", "cold"],
+        "event": ["casual", "workwear"],
+        "layer": ["mid"]
+      }
+    },
+    {
+      "fur coat": {
+        "season": ["winter"],
+        "weather": ["cold"],
+        "event": ["formal", "casual"],
+        "layer": ["outer"]
+      }
+    },
+    {
+      "gown": {
+        "season": ["spring", "summer", "fall", "winter"],
+        "weather": ["moderate"],
+        "event": ["formal"],
+        "layer": ["outer"]
+      }
+    },
+    {
+      "jersey": {
+        "season": ["spring", "summer", "fall"],
+        "weather": ["warm", "moderate"],
+        "event": ["casual", "sport"],
+        "layer": ["base"]
+      }
+    },
+    {
+      "T-shirt": {
+        "season": ["spring", "summer", "fall"],
+        "weather": ["warm", "hot"],
+        "event": ["casual", "sport"],
+        "layer": ["base"]
+      }
+    },
+    {
+      "tee shirt": {
+        "season": ["spring", "summer", "fall"],
+        "weather": ["warm", "hot"],
+        "event": ["casual", "sport"],
+        "layer": ["base"]
+      }
+    },
+    {
+      "kimono": {
+        "season": ["spring", "summer"],
+        "weather": ["warm", "moderate"],
+        "event": ["cultural", "formal"],
+        "layer": ["outer"]
+      }
+    },
+    {
+      "lab coat": {
+        "season": ["spring", "summer", "fall", "winter"],
+        "weather": ["moderate"],
+        "event": ["workwear"],
+        "layer": ["outer"]
+      }
+    },
+    {
+      "laboratory coat": {
+        "season": ["spring", "summer", "fall", "winter"],
+        "weather": ["moderate"],
+        "event": ["workwear"],
+        "layer": ["outer"]
+      }
+    },
+    {
+      "maillot": {
+        "season": ["summer"],
+        "weather": ["hot"],
+        "event": ["sport"],
+        "layer": ["base"]
+      }
+    },
+    {
+      "swimsuit": {
+        "season": ["summer"],
+        "weather": ["hot"],
+        "event": ["sport"],
+        "layer": ["base"]
+      }
+    },
+    {
+      "tank suit": {
+        "season": ["summer"],
+        "weather": ["hot"],
+        "event": ["sport"],
+        "layer": ["base"]
+      }
+    },
+    {
+      "military uniform": {
+        "season": ["spring", "summer", "fall", "winter"],
+        "weather": ["moderate", "cold"],
+        "event": ["workwear"],
+        "layer": ["outer"]
+      }
+    },
+    {
+      "miniskirt": {
+        "season": ["spring", "summer"],
+        "weather": ["warm", "hot"],
+        "event": ["casual"],
+        "layer": ["mid"]
+      }
+    },
+    {
+      "mini": {
+        "season": ["spring", "summer"],
+        "weather": ["warm", "hot"],
+        "event": ["casual"],
+        "layer": ["mid"]
+      }
+    },
+    {
+      "pajama": {
+        "season": ["spring", "summer", "fall", "winter"],
+        "weather": ["moderate"],
+        "event": ["home"],
+        "layer": ["base"]
+      }
+    },
+    {
+      "pyjama": {
+        "season": ["spring", "summer", "fall", "winter"],
+        "weather": ["moderate"],
+        "event": ["home"],
+        "layer": ["base"]
+      }
+    },
+    {
+      "pj's": {
+        "season": ["spring", "summer", "fall", "winter"],
+        "weather": ["moderate"],
+        "event": ["home"],
+        "layer": ["base"]
+      }
+    },
+    {
+      "jammies": {
+        "season": ["spring", "summer", "fall", "winter"],
+        "weather": ["moderate"],
+        "event": ["home"],
+        "layer": ["base"]
+      }
+    },
+    {
+      "poncho": {
+        "season": ["fall", "winter"],
+        "weather": ["cold", "rainy"],
+        "event": ["casual"],
+        "layer": ["outer"]
+      }
+    },
+    {
+      "suit": {
+        "season": ["fall", "winter", "spring"],
+        "weather": ["cold", "moderate"],
+        "event": ["formal", "workwear"],
+        "layer": ["outer"]
+      }
+    },
+    {
+      "suit of clothes": {
+        "season": ["fall", "winter", "spring"],
+        "weather": ["cold", "moderate"],
+        "event": ["formal", "workwear"],
+        "layer": ["outer"]
+      }
+    },
+    {
+      "swimming trunks": {
+        "season": ["summer"],
+        "weather": ["hot"],
+        "event": ["sport"],
+        "layer": ["base"]
+      }
+    },
+    {
+      "bathing trunks": {
+        "season": ["summer"],
+        "weather": ["hot"],
+        "event": ["sport"],
+        "layer": ["base"]
+      }
+    },
+    {
+      "trench coat": {
+        "season": ["fall", "winter", "spring"],
+        "weather": ["cold", "moderate", "rainy"],
+        "event": ["formal", "workwear"],
+        "layer": ["outer"]
+      }
+    },
+    {
+      "vestment": {
+        "season": ["spring", "summer", "fall", "winter"],
+        "weather": ["moderate"],
+        "event": ["religious"],
+        "layer": ["outer"]
+      }
+    },
+    {
+      "cowboy boot": {
+        "season": ["fall", "winter", "spring"],
+        "weather": ["moderate", "cold"],
+        "event": ["casual", "workwear"],
+        "layer": ["footwear"]
+      }
+    },
+    {
+      "running shoe": {
+        "season": ["spring", "summer", "fall", "winter"],
+        "weather": ["moderate"],
+        "event": ["sport", "casual"],
+        "layer": ["footwear"]
+      }
+    },
+    {
+      "sandal": {
+        "season": ["spring", "summer"],
+        "weather": ["warm", "hot"],
+        "event": ["casual"],
+        "layer": ["footwear"]
+      }
+    },
+    {
+      "bathing cap": {
+        "season": ["summer"],
+        "weather": ["hot"],
+        "event": ["sport"],
+        "layer": ["accessory"]
+      }
+    },
+    {
+      "swimming cap": {
+        "season": ["summer"],
+        "weather": ["hot"],
+        "event": ["sport"],
+        "layer": ["accessory"]
+      }
+    },
+    {
+      "cowboy hat": {
+        "season": ["spring", "summer", "fall"],
+        "weather": ["warm", "moderate"],
+        "event": ["casual", "workwear"],
+        "layer": ["accessory"]
+      }
+    },
+    {
+      "ten-gallon hat": {
+        "season": ["spring", "summer", "fall"],
+        "weather": ["warm", "moderate"],
+        "event": ["casual", "workwear"],
+        "layer": ["accessory"]
+      }
+    },
+    {
+      "mortarboard": {
+        "season": ["spring", "summer"],
+        "weather": ["moderate"],
+        "event": ["formal"],
+        "layer": ["accessory"]
+      }
+    },
+    {
+      "shower cap": {
+        "season": ["spring", "summer", "fall", "winter"],
+        "weather": ["moderate"],
+        "event": ["home"],
+        "layer": ["accessory"]
+      }
+    },
+    {
+      "ski mask": {
+        "season": ["winter"],
+        "weather": ["cold"],
+        "event": ["sport"],
+        "layer": ["accessory"]
+      }
+    },
+    {
+      "sombrero": {
+        "season": ["spring", "summer"],
+        "weather": ["warm", "hot"],
+        "event": ["cultural", "casual"],
+        "layer": ["accessory"]
+      }
+    },
+    {
+      "wig": {
+        "season": ["spring", "summer", "fall", "winter"],
+        "weather": ["moderate"],
+        "event": ["formal", "cultural"],
+        "layer": ["accessory"]
+      }
+    },
+    {
+      "band aid": {
+        "season": ["spring", "summer", "fall", "winter"],
+        "weather": ["moderate"],
+        "event": ["casual"],
+        "layer": ["accessory"]
+      }
+    },
+    {
+      "bow tie": {
+        "season": ["spring", "summer", "fall", "winter"],
+        "weather": ["moderate"],
+        "event": ["formal"],
+        "layer": ["accessory"]
+      }
+    },
+    {
+      "bow-tie": {
+        "season": ["spring", "summer", "fall", "winter"],
+        "weather": ["moderate"],
+        "event": ["formal"],
+        "layer": ["accessory"]
+      }
+    },
+    {
+      "bowtie": {
+        "season": ["spring", "summer", "fall", "winter"],
+        "weather": ["moderate"],
+        "event": ["formal"],
+        "layer": ["accessory"]
+      }
+    },
+    {
+      "feather boa": {
+        "season": ["fall", "winter"],
+        "weather": ["cold"],
+        "event": ["formal"],
+        "layer": ["accessory"]
+      }
+    },
+    {
+      "boa": {
+        "season": ["fall", "winter"],
+        "weather": ["cold"],
+        "event": ["formal"],
+        "layer": ["accessory"]
+      }
+    },
+    {
+      "mitten": {
+        "season": ["winter"],
+        "weather": ["cold"],
+        "event": ["casual"],
+        "layer": ["accessory"]
+      }
+    },
+    {
+      "necklace": {
+        "season": ["spring", "summer", "fall", "winter"],
+        "weather": ["moderate"],
+        "event": ["formal", "casual"],
+        "layer": ["accessory"]
+      }
+    },
+    {
+      "safety pin": {
+        "season": ["spring", "summer", "fall", "winter"],
+        "weather": ["moderate"],
+        "event": ["casual"],
+        "layer": ["accessory"]
+      }
+    },
+    {
+      "scarf": {
+        "season": ["fall", "winter"],
+        "weather": ["cold"],
+        "event": ["casual", "formal"],
+        "layer": ["accessory"]
+      }
+    },
+    {
+      "sunglasses": {
+        "season": ["spring", "summer"],
+        "weather": ["warm", "hot"],
+        "event": ["casual"],
+        "layer": ["accessory"]
+      }
+    },
+    {
+      "dark glasses": {
+        "season": ["spring", "summer"],
+        "weather": ["warm", "hot"],
+        "event": ["casual"],
+        "layer": ["accessory"]
+      }
+    },
+    {
+      "shades": {
+        "season": ["spring", "summer"],
+        "weather": ["warm", "hot"],
+        "event": ["casual"],
+        "layer": ["accessory"]
+      }
+    },
+    {
+      "sunscreen": {
+        "season": ["spring", "summer"],
+        "weather": ["warm", "hot"],
+        "event": ["casual", "sport"],
+        "layer": ["material"]
+      }
+    },
+    {
+      "sunblock": {
+        "season": ["spring", "summer"],
+        "weather": ["warm", "hot"],
+        "event": ["casual", "sport"],
+        "layer": ["material"]
+      }
+    },
+    {
+      "sun blocker": {
+        "season": ["spring", "summer"],
+        "weather": ["warm", "hot"],
+        "event": ["casual", "sport"],
+        "layer": ["material"]
+      }
+    },
+    {
+      "suspenders": {
+        "season": ["spring", "summer", "fall", "winter"],
+        "weather": ["moderate"],
+        "event": ["formal", "workwear"],
+        "layer": ["accessory"]
+      }
+    }
+  ]
+}

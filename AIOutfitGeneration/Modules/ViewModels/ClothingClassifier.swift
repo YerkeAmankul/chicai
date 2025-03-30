@@ -14,15 +14,18 @@ class ClothingClassifier {
         self.model = visionModel
     }
     
-    func classifyClothing(in images: [UIImage]) async -> [Result<(String, UIImage), Error>] {
-        guard let model = model else { return images.map { _ in .failure(NSError()) } }
-        
-        return await withTaskGroup(of: (Int, Result<(String, UIImage), Error>).self) { group in
-            var results = [Result<(String, UIImage), Error>](repeating: .failure(NSError()), count: images.count)
+    func classifyClothing(in images: [UIImage]) async -> [Result<(ClothingItem, UIImage), ErrorImage>] {
+        guard let model = model,
+              let clothingDataBase = WardrobeFileManager.shared.getClothingData()?.items
+        else { return images.map { _ in .failure(ErrorImage(image: nil)) } }
+        let arrayOfkeys = clothingDataBase.keys.map { $0 }
+
+        return await withTaskGroup(of: (Int, Result<(ClothingItem, UIImage), ErrorImage>).self) { group in
+            var results = [Result<(ClothingItem, UIImage), ErrorImage>](repeating: .failure(ErrorImage(image: nil)), count: images.count)
             
             for (index, image) in images.enumerated() {
                 guard let cgImage = image.cgImage else {
-                    results[index] = .failure(NSError())
+                    results[index] = .failure(ErrorImage(image: nil))
                     continue
                 }
                 group.addTask {
@@ -33,16 +36,22 @@ class ClothingClassifier {
                         
                         if let classifications = request.results as? [VNClassificationObservation],
                            let topResult = classifications.first {
-                            return (index, .success((topResult.identifier, image)))
+                            if arrayOfkeys.contains(where: { topResult.identifier.contains($0) }),
+                               let item = clothingDataBase.first(where: { database in
+                                   return topResult.identifier.contains(database.key)
+                               })?.value {
+                                return (index, .success((item, image)))
+                            } else {
+                                return (index, .failure(ErrorImage(image: image)))
+                            }
                         } else {
-                            return (index, .failure(NSError()))
+                            return (index, .failure(ErrorImage(image: image)))
                         }
                     } catch {
-                        return (index, .failure(error))
+                        return (index, .failure(ErrorImage(image: image)))
                     }
                 }
             }
-            
             for await (index, result) in group {
                 results[index] = result
             }
@@ -50,35 +59,8 @@ class ClothingClassifier {
             return results
         }
     }
+    
+    struct ErrorImage: Error {
+        let image: UIImage?
+    }
 }
-
-
-//class ClothingClassifier {
-//    private var model: VNCoreMLModel?
-//    
-//    init?() {
-//        guard let mlModel = try? MobileNetV2(configuration: MLModelConfiguration()).model,
-//              let visionModel = try? VNCoreMLModel(for: mlModel) else {
-//            print("Failed to load CoreML model")
-//            return nil
-//        }
-//        self.model = visionModel
-//    }
-//    
-//    func classifyClothing(in image: UIImage, completion: @escaping (Result<String, Error>) -> Void) {
-//        guard let cgImage = image.cgImage, let model = model else { return }
-//        
-//        let request = VNCoreMLRequest(model: model) { request, error in
-//            guard let results = request.results as? [VNClassificationObservation],
-//                  let topResult = results.first else {
-//                completion(.failure(NSError()))
-//                return
-//            }
-//            
-//            completion(.success(topResult.identifier))
-//        }
-//        
-//        let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
-//        try? handler.perform([request])
-//    }
-//}

@@ -3,8 +3,7 @@ import Lottie
 
 struct MainView: View {
     @State private var isPresented = false
-    @State var selectedCategory: String?
-    private let categories = ["Повседневный", "Формальный", "Рабочый", "Домашний", "Религиозный", "Традиционный/Культурный"]
+    @ObservedObject private var viewModel = MainViewModel()
         
     var body: some View {
         VStack {
@@ -22,7 +21,7 @@ struct MainView: View {
                     .padding(.top, 250)
             }
             Spacer()
-            TagsView(tags: categories, selectedTag: $selectedCategory)
+            TagsView(tags: viewModel.categrories, selectedTag: $viewModel.selectedCategory)
                 .background(Color("background"))
                 .cornerRadius(16)
                 .padding(.horizontal)
@@ -43,11 +42,6 @@ struct MainView: View {
             }
         }
         .background(Color.white)
-        .onAppear {
-            if selectedCategory == nil {
-                selectedCategory = categories.first
-            }
-        }
     }
     
     private func generateOutfit() {
@@ -56,11 +50,5 @@ struct MainView: View {
     
     private func makeThumbnailAnimation() async throws -> LottieAnimationSource? {
         try await DotLottieFile.named("loading").animationSource
-    }
-}
-
-struct MainView_Previews: PreviewProvider {
-    static var previews: some View {
-        MainView()
     }
 }

@@ -1,8 +1,8 @@
 import SwiftUI
 
 struct TagsView: View {
-    let tags: [String]
-    @Binding var selectedTag: String?
+    let tags: [Event]
+    @Binding var selectedTag: Event?
 
     var body: some View {
         FlowLayoutView(items: tags) { tag in
@@ -15,9 +15,9 @@ struct TagsView: View {
         .padding()
     }
     
-    private func tagItemView(_ tag: String) -> some View {
+    private func tagItemView(_ tag: Event) -> some View {
         let isSelected = selectedTag == tag
-        return Text(tag)
+        return Text(tag.text)
             .padding(.horizontal, 16)
             .padding(.vertical, 12)
             .background(isSelected ? Color("primary") : Color.white)
@@ -30,8 +30,8 @@ struct TagsView: View {
             .cornerRadius(16)
             .animation(.easeInOut, value: selectedTag)
     }
-    
-    private func toggleSelection(_ tag: String) {
+   
+    private func toggleSelection(_ tag: Event) {
         if selectedTag == tag {
             selectedTag = nil
         } else {
@@ -60,7 +60,7 @@ struct FlowLayoutView<Data: RandomAccessCollection, Content: View>: View where D
         var rows: [[Data.Element]] = []
 
         for item in items {
-            let itemWidth: CGFloat = estimatedTextWidth(for: item) + 32
+            let itemWidth: CGFloat = estimatedTextWidth(for: item) + 64
             if width + itemWidth > geometry.size.width {
                 rows.append(currentRow)
                 currentRow = []
@@ -88,7 +88,7 @@ struct FlowLayoutView<Data: RandomAccessCollection, Content: View>: View where D
     }
 
     private func estimatedTextWidth(for text: Data.Element) -> CGFloat {
-        let font = UIFont.systemFont(ofSize: 17, weight: .medium)
+        let font = UIFont.systemFont(ofSize: 24, weight: .medium)
         let attributes = [NSAttributedString.Key.font: font]
         let size = (String(describing: text) as NSString).size(withAttributes: attributes)
         return size.width
