@@ -12,6 +12,7 @@ struct EmptyWardrobeView: View {
     @State var isLoading = false
     @State private var startClassified = false
     @EnvironmentObject var coordinator: TabBarCoordinator
+    var text: String? = nil
 
     var body: some View {
         VStack {
@@ -21,7 +22,7 @@ struct EmptyWardrobeView: View {
                 }
                 .looping()
                 .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width)
-                Text("Гардероб ждёт первых вещей! Добавьте их, и мы создадим лук дня.")
+                Text(text ?? "Гардероб ждёт первых вещей! Добавьте их, и мы создадим лук дня.")
                     .foregroundColor(Color("primary"))
                     .font(.system(size: 16, weight: .regular, design: .monospaced))
                     .multilineTextAlignment(.center)

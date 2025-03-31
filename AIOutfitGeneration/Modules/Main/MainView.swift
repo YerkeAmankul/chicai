@@ -38,7 +38,9 @@ struct MainView: View {
             }
             .padding()
             .sheet(isPresented: $isPresented) {
-                OutfitView()
+                if let selectedCategory = viewModel.selectedCategory {
+                    OutfitView(viewModel: OutfitViewModel(event: selectedCategory))
+                }
             }
         }
         .background(Color.white)

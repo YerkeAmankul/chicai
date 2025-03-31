@@ -401,6 +401,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = ChicAI;
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Приложение использует камеру для доступа к вашим фото, чтобы каждый день с помощью ИИ генерировать стильные образы специально для вас";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Приложение использует вашу локацию, чтобы определять погоду и предлагать соответствующий лук дня";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Приложение использует доступ к фото, чтобы каждый день с помощью ИИ генерировать стильные образы специально для вас";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Приложение использует доступ к фото, чтобы каждый день с помощью ИИ генерировать стильные образы специально для вас";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
@@ -445,6 +446,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = ChicAI;
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Приложение использует камеру для доступа к вашим фото, чтобы каждый день с помощью ИИ генерировать стильные образы специально для вас";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Приложение использует вашу локацию, чтобы определять погоду и предлагать соответствующий лук дня";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Приложение использует доступ к фото, чтобы каждый день с помощью ИИ генерировать стильные образы специально для вас";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Приложение использует доступ к фото, чтобы каждый день с помощью ИИ генерировать стильные образы специально для вас";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;

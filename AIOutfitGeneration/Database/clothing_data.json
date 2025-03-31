@@ -483,24 +483,24 @@
         {
             "jean": {
                 "season": ["spring", "summer", "fall", "winter"],
-                "weather": ["moderate", "cold"],
-                "event": ["casual", "workwear"],
+                "weather": ["moderate", "cold", "hot"],
+                "event": ["casual", "workwear", "formal"],
                 "layer": ["material"]
             }
         },
         {
             "blue jean": {
                 "season": ["spring", "summer", "fall", "winter"],
-                "weather": ["moderate", "cold"],
-                "event": ["casual", "workwear"],
+                "weather": ["moderate", "cold", "hot"],
+                "event": ["casual", "workwear", "formal"],
                 "layer": ["material"]
             }
         },
         {
             "denim": {
                 "season": ["spring", "summer", "fall", "winter"],
-                "weather": ["moderate", "cold"],
-                "event": ["casual", "workwear"],
+                "weather": ["moderate", "cold", "hot"],
+                "event": ["casual", "workwear", "formal"],
                 "layer": ["material"]
             }
         }
