@@ -73,16 +73,54 @@ struct OutfitView: View {
     }
     
     private func combinationView(items: [WardrobeItem]) -> some View {
-        LazyVGrid(columns: columns, alignment: .center, spacing: 8) {
-            ForEach(items, id: \.fileName) { item in
-                if let uiImage = UIImage(filename: item.fileName) {
+        HStack(alignment: .center) {
+            VStack(alignment: .center) {
+                if let baseImage = items.first(where: { $0.item.layer.first == .base })?.fileName,
+                   let uiImage = UIImage(filename: baseImage) {
+                    Image(uiImage: uiImage)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                }
+                if let baseImage = items.first(where: { $0.item.layer.first == .material })?.fileName,
+                   let uiImage = UIImage(filename: baseImage) {
+                    Image(uiImage: uiImage)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                }
+                if let baseImage = items.first(where: { $0.item.layer.first == .footwear })?.fileName,
+                   let uiImage = UIImage(filename: baseImage) {
                     Image(uiImage: uiImage)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                 }
             }
-        }
-        .padding()
+            if items.first(where: { $0.item.layer.first == .mid })?.fileName != nil ||
+                items.first(where: { $0.item.layer.first == .outer })?.fileName != nil ||
+                items.first(where: { $0.item.layer.first == .accessory })?.fileName != nil {
+                VStack(alignment: .center) {
+                    HStack(alignment: .center) {
+                        if let baseImage = items.first(where: { $0.item.layer.first == .mid })?.fileName,
+                           let uiImage = UIImage(filename: baseImage) {
+                            Image(uiImage: uiImage)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                        }
+                        if let baseImage = items.first(where: { $0.item.layer.first == .outer })?.fileName,
+                           let uiImage = UIImage(filename: baseImage) {
+                            Image(uiImage: uiImage)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                        }
+                    }
+                    if let baseImage = items.first(where: { $0.item.layer.first == .accessory })?.fileName,
+                       let uiImage = UIImage(filename: baseImage) {
+                        Image(uiImage: uiImage)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                    }
+                }
+            }
+        }.padding()
     }
     
     private func makeThumbnailAnimation() async throws -> LottieAnimationSource? {

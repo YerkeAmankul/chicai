@@ -37,49 +37,85 @@ final class OutfitViewModel: ObservableObject {
                 return
             }
             let clothesFilterdByLayers = getClothesFilteredByLayer(
-                layers: layers,
+                layers: layers.required + layers.optional,
                 wardrobe: clothesFilteredWeather)
             guard !clothesFilteredWeather.isEmpty else {
                 notEnoughItemsForCombination = .layer
                 return
             }
-            let clothesFilterdByEvent = getClothesFilteredByEvent(
-                event: event,
-                wardrobe: clothesFilterdByLayers
-            )
-            guard !clothesFilteredWeather.isEmpty else {
-                notEnoughItemsForCombination = .event
-                return
-            }
-            combinations = findCombinations(for: layers, from: clothesFilterdByEvent)
-            guard !combinations.isEmpty else {
+//            let clothesFilterdByEvent = getClothesFilteredByEvent(
+//                event: event,
+//                wardrobe: clothesFilterdByLayers
+//            )
+//            guard !clothesFilterdByEvent.isEmpty else {
+//                notEnoughItemsForCombination = .event
+//                return
+//            }
+            let layerCombinations = findCombinations(requiredLayers: layers.required, optionalLayers: layers.optional, from: clothesFilterdByLayers)
+            guard !layerCombinations.isEmpty else {
                 notEnoughItemsForCombination = .combination
                 return
             }
+            combinations = layerCombinations
+            combinations = filterCompatibleCombinations(combinations: layerCombinations)
+            guard !combinations.isEmpty else {
+                notEnoughItemsForCombination = .compatible
+                return
+            }
+
             selectedIndex = 0
         }
     }
     
-    private func findCombinations(for requiredLayers: [Layer], from items: [WardrobeItem]) -> [[WardrobeItem]] {
+    private func filterCompatibleCombinations(combinations: [[WardrobeItem]]) -> [[WardrobeItem]] {
+        return combinations
+            .filter { combination in
+                guard combination.count > 1 else { return false }
+                for i in 0..<combination.count {
+                    for j in (i + 1)..<combination.count {
+                        let score = colorCompatibility(hex1: combination[i].color, hex2: combination[j].color).score
+                        if score.rawValue < OutfitViewModel.CombinationScore.carefful.rawValue {
+                            return false
+                        }
+                    }
+                }
+                return true
+            }
+            .map { combination in
+                combination.sorted { item1, item2 in
+                    let score1 = combination.reduce(0) { $0 + colorCompatibility(hex1: item1.color, hex2: $1.color).score.rawValue }
+                    let score2 = combination.reduce(0) { $0 + colorCompatibility(hex1: item2.color, hex2: $1.color).score.rawValue }
+                    return score1 < score2
+                }
+            }
+    }
+ 
+    private func findCombinations(
+        requiredLayers: [Layer],
+        optionalLayers: [Layer],
+        from items: [WardrobeItem]
+    ) -> [[WardrobeItem]] {
+        var uniqueCombinations: Set<Set<String>> = []
         var validCombinations: [[WardrobeItem]] = []
-        
         func backtrack(index: Int, currentItems: [WardrobeItem], currentLayers: [Layer]) {
             let sortedCurrentLayers = currentLayers.sorted(by: { $0.rawValue < $1.rawValue })
             let sortedRequiredLayers = requiredLayers.sorted(by: { $0.rawValue < $1.rawValue })
-            
-            if sortedCurrentLayers == sortedRequiredLayers {
-                validCombinations.append(currentItems)
-                return
+
+            if sortedRequiredLayers.allSatisfy({ sortedCurrentLayers.contains($0) }) {
+                let fileNameSet = Set(currentItems.map { $0.fileName })
+                if uniqueCombinations.insert(fileNameSet).inserted {
+                    validCombinations.append(currentItems)
+                }
             }
             guard index < items.count else { return }
             
             let item = items[index]
             let newLayers = item.item.layer
             
-            if !newLayers.contains(where: { currentLayers.contains($0) }) {
+            if !newLayers.contains(where: { currentLayers.contains($0) }) || newLayers.contains(where: { optionalLayers.contains($0) }) {
                 backtrack(index: index + 1, currentItems: currentItems + [item], currentLayers: currentLayers + newLayers)
             }
-            
+
             backtrack(index: index + 1, currentItems: currentItems, currentLayers: currentLayers)
         }
         
@@ -89,7 +125,12 @@ final class OutfitViewModel: ObservableObject {
     
     private func getClothesFilteredByWeather(weathers: [Weather]) -> [WardrobeItem] {
         let items = wardrobe.filter({ item in
-            item.item.weather.contains(where: weathers.contains)
+            if item.item.layer.contains(.base) ||
+                item.item.layer.contains(.material) ||
+               item.item.layer.contains(.footwear) {
+                return true
+            }
+            return item.item.weather.contains(where: weathers.contains)
         })
         return items
     }
@@ -138,9 +179,9 @@ final class OutfitViewModel: ObservableObject {
         return Array(weathers)
     }
     
-    private func getLayers(weathers: [Weather], event: Event) -> [Layer] {
+    private func getLayers(weathers: [Weather], event: Event) -> (required: [Layer], optional: [Layer]) {
         var outfit: Set<Layer> = [.base, .material]
-//        var outfit: Set<Layer> = [.base, .footwear, .material]
+        var optionalOutfit: Set<Layer> = [.footwear]
         var needsMid = false
         var needsOuter = false
         
@@ -163,11 +204,61 @@ final class OutfitViewModel: ObservableObject {
             outfit.insert(.outer)
         }
         
-//        if event == .formal {
-//            outfit.insert(.accessory)
-//        }
+        if event == .formal {
+            optionalOutfit.insert(.accessory)
+        }
         
-        return Array(outfit)
+        return (required: Array(outfit), optional: Array(optionalOutfit))
+    }
+    
+    private func colorCompatibility(hex1: String, hex2: String) -> (score: CombinationScore, description: String) {
+        guard let color1 = hexToRGB(hex1), let color2 = hexToRGB(hex2),
+              let hue1 = getColorProperties(from: color1)?.hue,
+              let hue2 = getColorProperties(from: color2)?.hue else {
+            return (.bad, "Ошибка в обработке цветов")
+        }
+        
+        let angleDifference = abs(hue1 - hue2)
+        let minDifference = min(angleDifference, 360 - angleDifference)
+        
+        switch minDifference {
+        case 0...20: return (.perfect, "Идеально: монохромный стиль")
+        case 21...50: return (.good, "Отличное сочетание: аналогичные оттенки")
+        case 51...90: return (.controversial, "Спорное сочетание: может выглядеть ярко")
+        case 91...130: return (.normal, "Контрастное, но стильное сочетание")
+        case 131...180: return (.carefful, "Сильный контраст: нужно подбирать осторожно")
+        default: return (.bad, "Плохая совместимость: резкий конфликт цветов")
+        }
+    }
+    
+    private func hexToRGB(_ hex: String) -> UIColor? {
+        var hexSanitized = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+        
+        if hexSanitized.hasPrefix("#") {
+            hexSanitized.removeFirst()
+        }
+        
+        guard hexSanitized.count == 6,
+              let rgbValue = UInt32(hexSanitized, radix: 16) else {
+            return nil
+        }
+        
+        return UIColor(
+            red: CGFloat((rgbValue >> 16) & 0xFF) / 255.0,
+            green: CGFloat((rgbValue >> 8) & 0xFF) / 255.0,
+            blue: CGFloat(rgbValue & 0xFF) / 255.0,
+            alpha: 1.0
+        )
+    }
+    
+    private func getColorProperties(from color: UIColor) -> (hue: CGFloat, saturation: CGFloat, brightness: CGFloat)? {
+        var hue: CGFloat = 0, saturation: CGFloat = 0, brightness: CGFloat = 0, alpha: CGFloat = 0
+        
+        guard color.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha) else {
+            return nil
+        }
+        
+        return (hue * 360, saturation, brightness)
     }
 
     private func getWeather(onCompletion: @escaping (WeatherMap) -> Void) {
@@ -175,7 +266,7 @@ final class OutfitViewModel: ObservableObject {
             guard let self else { return }
             switch result {
             case let .success(location):
-                let apiLink = "https://api.openweathermap.org/data/2.5/weather?lat=\(location.latitude)&lon=\(location.longitude)&appid=\(weatherAPIKey)"
+                let apiLink = "https://api.openweathermap.org/data/2.5/weather?lat=\(location.latitude)&lon=\(location.longitude)&appid=\(weatherAPIKey)&units=metric"
                 guard let url = URL(string: apiLink) else { return }
                 
                 URLSession.shared.dataTask(with: url) { data, response, error in
@@ -231,6 +322,7 @@ extension OutfitViewModel {
         case layer
         case event
         case combination
+        case compatible
         
         var text: String {
             switch self {
@@ -239,9 +331,20 @@ extension OutfitViewModel {
             case .event:
                 return "Ваш гардероб ждёт обновления! У вас нет одежды для этого события. Добавьте её, и мы подберём стильный лук"
             case .combination:
-                return "Для идеального образа не хватает деталей! У вас нет необходимых вещей для комбинации. Добавьте их, и мы закончим ваш лук"
+                return "Для идеального лука не хватает деталей! У вас нет необходимых вещей для комбинации. Добавьте их, и мы закончим ваш лук"
+            case .compatible:
+                return "Ваш лук почти готов, но не хватает вещей, сочетающихся по цвету! Добавьте подходящие элементы, и мы завершим идеальный лук"
             }
         }
+    }
+    
+    enum CombinationScore: Int {
+        case bad // Плохая совместимость: резкий конфликт цветов
+        case controversial // Спорное сочетание: может выглядеть ярко
+        case carefful // Сильный контраст: нужно подбирать осторожно
+        case normal // Контрастное, но стильное сочетание
+        case good // Отличное сочетание: аналогичные оттенки
+        case perfect // Идеально: монохромный стиль
     }
 
 }
