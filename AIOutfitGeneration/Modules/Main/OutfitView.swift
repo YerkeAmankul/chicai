@@ -4,6 +4,9 @@ import Lottie
 struct OutfitView: View {
 
     @ObservedObject var viewModel: OutfitViewModel
+    @Environment(\.dismiss) var dismiss
+    @State var isOutfitGenerated = false
+
     private let columns = [
         GridItem(.flexible(), spacing: 8),
         GridItem(.flexible(), spacing: 8),
@@ -19,7 +22,7 @@ struct OutfitView: View {
                     }
                     .looping()
                     .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width)
-                    Text("ChicAI изучает погоду, подбирает цвета и балансирует стиль. Что получится? Смелый эксперимент или безупречная классика? Скоро узнаем!")
+                    Text(viewModel.wetherOn ? "ChicAI изучает погоду, подбирает цвета и балансирует стиль. Что получится? Смелый эксперимент или безупречная классика? Скоро узнаем!" : "ChicAI подбирает цвета и балансирует стиль. Что получится? Смелый эксперимент или безупречная классика? Скоро узнаем!")
                         .foregroundColor(Color("primary"))
                         .font(.system(size: 16, weight: .regular, design: .monospaced))
                         .multilineTextAlignment(.center)
@@ -65,10 +68,17 @@ struct OutfitView: View {
         }
         .background(Color.white)
         .onAppear {
-            viewModel.generateOutfit()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                if !isOutfitGenerated {
+                    viewModel.generateOutfit()
+                    isOutfitGenerated = true
+                }
+            }
         }
-        .fullScreenCover(isPresented: $viewModel.presentEmptyView) {
-            EmptyWardrobeView(text: viewModel.notEnoughItemsForCombination?.text)
+        .fullScreenCover(isPresented: $viewModel.presentEmptyView, onDismiss: {
+            dismiss()
+        }) {
+            EmptyWardrobeView(text: viewModel.notEnoughItemsForCombination?.text, showCloseButton: true)
         }
     }
     

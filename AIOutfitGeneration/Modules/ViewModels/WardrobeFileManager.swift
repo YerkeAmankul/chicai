@@ -23,6 +23,48 @@ final class WardrobeFileManager {
         }
     }
     
+    func editItem(fileName: String, layer: Layer) {
+        var items = read()
+        if let editingItemIndex = items.firstIndex(where: { $0.fileName == fileName }) {
+            items[editingItemIndex].item.layer = [layer]
+            do {
+                let encoder = JSONEncoder()
+                let jsonData = try encoder.encode(items)
+                if let jsonString = String(data: jsonData, encoding: .utf8) {
+                    print("JSON String: \(jsonString)")
+                }
+                
+                let fileURL = getDocumentsDirectory().appendingPathComponent("wardrove_items.json")
+                
+                try jsonData.write(to: fileURL, options: .atomic)
+                print("File saved at: \(fileURL)")
+            } catch {
+                print("Failed to write JSON data: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    func deleteItem(fileName: String) {
+        var items = read()
+        if let editingItemIndex = items.firstIndex(where: { $0.fileName == fileName }) {
+            items.remove(at: editingItemIndex)
+            do {
+                let encoder = JSONEncoder()
+                let jsonData = try encoder.encode(items)
+                if let jsonString = String(data: jsonData, encoding: .utf8) {
+                    print("JSON String: \(jsonString)")
+                }
+                
+                let fileURL = getDocumentsDirectory().appendingPathComponent("wardrove_items.json")
+                
+                try jsonData.write(to: fileURL, options: .atomic)
+                print("File saved at: \(fileURL)")
+            } catch {
+                print("Failed to write JSON data: \(error.localizedDescription)")
+            }
+        }
+    }
+    
     func read() -> [WardrobeItem] {
         let fileURL = getDocumentsDirectory().appendingPathComponent("wardrove_items.json")
         

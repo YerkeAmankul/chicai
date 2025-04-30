@@ -1,5 +1,5 @@
 struct WardrobeItem: Codable {
-    let item: ClothingItem
+    var item: ClothingItem
     let color: String
     let fileName: String
 }
@@ -8,7 +8,7 @@ struct ClothingItem: Codable {
     let season: [Season]
     let weather: [Weather]
     let event: [Event]
-    let layer: [Layer]
+    var layer: [Layer]
 }
 
 struct ClothingData: Codable {

@@ -4,10 +4,12 @@ import CoreLocation
 final class OutfitViewModel: ObservableObject {
     
     private let event: Event
+    let wetherOn: Bool
     
     private let weatherAPIKey = "a22a49228a176fdce8892bccd40a879b"
     private let wardrobe = WardrobeFileManager.shared.read()
     private var locationManager = LocationManager()
+
     @Published var notEnoughItemsForCombination: NotEnoughItemsForCombination? {
         didSet {
             presentEmptyView = true
@@ -22,49 +24,71 @@ final class OutfitViewModel: ObservableObject {
     }
     @Published var selectedCombination: [WardrobeItem] = []
 
-    init(event: Event) {
+    init(event: Event, wetherOn: Bool) {
         self.event = event
+        self.wetherOn = wetherOn
     }
     
     func generateOutfit() {
-        getWeather { [weak self] response in
-            guard let self else { return }
-            let weathers = getWeatherArray(response: response)
-            let clothesFilteredWeather = getClothesFilteredByWeather(weathers: weathers)
-            let layers = getLayers(weathers: weathers, event: event)
-            guard !clothesFilteredWeather.isEmpty else {
-                notEnoughItemsForCombination = .weather
-                return
+        if wetherOn {
+            getWeather { [weak self] response in
+                self?.generate(weather: response)
             }
-            let clothesFilterdByLayers = getClothesFilteredByLayer(
-                layers: layers.required + layers.optional,
-                wardrobe: clothesFilteredWeather)
-            guard !clothesFilteredWeather.isEmpty else {
-                notEnoughItemsForCombination = .layer
-                return
-            }
-//            let clothesFilterdByEvent = getClothesFilteredByEvent(
-//                event: event,
-//                wardrobe: clothesFilterdByLayers
-//            )
-//            guard !clothesFilterdByEvent.isEmpty else {
-//                notEnoughItemsForCombination = .event
-//                return
-//            }
-            let layerCombinations = findCombinations(requiredLayers: layers.required, optionalLayers: layers.optional, from: clothesFilterdByLayers)
+        } else {
+            generate(weather: nil)
+        }
+    }
+    
+    private func generate(weather: OutfitViewModel.WeatherMap?) {
+        guard let weather else {
+            let layerCombinations = findCombinations(requiredLayers: [.base, .material], optionalLayers: [.footwear, .mid, .outer], from: wardrobe)
             guard !layerCombinations.isEmpty else {
                 notEnoughItemsForCombination = .combination
                 return
             }
-            combinations = layerCombinations
             combinations = filterCompatibleCombinations(combinations: layerCombinations)
             guard !combinations.isEmpty else {
                 notEnoughItemsForCombination = .compatible
                 return
             }
-
+            
             selectedIndex = 0
+            return
         }
+        let weathers = getWeatherArray(response: weather)
+        let clothesFilteredWeather = getClothesFilteredByWeather(weathers: weathers)
+        let layers = getLayers(weathers: weathers, event: event)
+        guard !clothesFilteredWeather.isEmpty else {
+            notEnoughItemsForCombination = .weather
+            return
+        }
+        let clothesFilterdByLayers = getClothesFilteredByLayer(
+            layers: layers.required + layers.optional,
+            wardrobe: clothesFilteredWeather)
+        guard !clothesFilteredWeather.isEmpty else {
+            notEnoughItemsForCombination = .layer
+            return
+        }
+        let clothesFilterdByEvent = getClothesFilteredByEvent(
+            event: event,
+            wardrobe: clothesFilterdByLayers
+        )
+        guard !clothesFilterdByEvent.isEmpty else {
+            notEnoughItemsForCombination = .event
+            return
+        }
+        let layerCombinations = findCombinations(requiredLayers: layers.required, optionalLayers: layers.optional, from: clothesFilterdByEvent)
+        guard !layerCombinations.isEmpty else {
+            notEnoughItemsForCombination = .combination
+            return
+        }
+        combinations = filterCompatibleCombinations(combinations: layerCombinations)
+        guard !combinations.isEmpty else {
+            notEnoughItemsForCombination = .compatible
+            return
+        }
+        
+        selectedIndex = 0
     }
     
     private func filterCompatibleCombinations(combinations: [[WardrobeItem]]) -> [[WardrobeItem]] {

@@ -4,7 +4,8 @@ import Lottie
 struct MainView: View {
     @State private var isPresented = false
     @ObservedObject private var viewModel = MainViewModel()
-        
+    @State private var isWetherOn = true
+    
     var body: some View {
         VStack {
             ZStack {
@@ -25,6 +26,15 @@ struct MainView: View {
                 .background(Color("background"))
                 .cornerRadius(16)
                 .padding(.horizontal)
+            HStack {
+                Text("С учетом текущей погоды")
+                    .foregroundColor(Color("primary"))
+                    .font(.system(size: 16, weight: .bold, design: .monospaced))
+                    .multilineTextAlignment(.leading)
+                Spacer()
+                Toggle("", isOn: $isWetherOn)
+                    .frame(width: 60)
+            }.padding()
             Spacer()
             Button(action: generateOutfit) {
                 Text("Лук дня")
@@ -39,7 +49,7 @@ struct MainView: View {
             .padding()
             .sheet(isPresented: $isPresented) {
                 if let selectedCategory = viewModel.selectedCategory {
-                    OutfitView(viewModel: OutfitViewModel(event: selectedCategory))
+                    OutfitView(viewModel: OutfitViewModel(event: selectedCategory, wetherOn: isWetherOn))
                 }
             }
         }

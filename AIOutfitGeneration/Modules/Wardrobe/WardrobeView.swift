@@ -5,6 +5,8 @@ struct WardrobeView: View {
     
     @ObservedObject private var viewModel = WardrobeViewModel()
     @State private var showBottomSheet = false
+    @State private var showSortBottomSheet = false
+    @State private var showEditBottomSheet = false
     @State private var images: [UIImage]?
     @State private var showCamera = false
     @State private var showGallery = false
@@ -12,12 +14,12 @@ struct WardrobeView: View {
     @State private var loadingCount = 0
     @State var isLoading = false
     @State private var startClassified = false
-    @EnvironmentObject var coordinator: TabBarCoordinator
-    
-    let columns = [
+    private let columns = [
         GridItem(.flexible(), spacing: 8),
         GridItem(.flexible(), spacing: 8)
     ]
+    
+    @EnvironmentObject var coordinator: TabBarCoordinator
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -27,12 +29,23 @@ struct WardrobeView: View {
                     .foregroundColor(Color("primary"))
                 Spacer()
                 if !isLoading {
-                    Text("+")
-                        .font(.system(size: 40))
-                        .foregroundColor(Color("primary"))
-                        .onTapGesture {
-                            showBottomSheet = true
-                        }
+                    HStack(alignment: .center) {
+                        Image(uiImage: UIImage(named: "sort")!)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .foregroundColor(Color("primary"))
+                            .padding(.top, 4)
+                            .frame(width: 26, height: 26)
+                            .onTapGesture {
+                                showSortBottomSheet = true
+                            }
+                        Text("+")
+                            .font(.system(size: 40))
+                            .foregroundColor(Color("primary"))
+                            .onTapGesture {
+                                showBottomSheet = true
+                            }
+                    }
                 } else {
                     ProgressView()
                         .progressViewStyle(CircularProgressViewStyle())
@@ -62,27 +75,7 @@ struct WardrobeView: View {
                 .padding(.horizontal)
                 .padding(.vertical, 8)
             }
-            ScrollView {
-                LazyVGrid(columns: columns, spacing: 8) {
-                    ForEach(viewModel.getItems(), id: \.fileName) { item in
-                        VStack {
-                            if let uiImage = UIImage(filename: item.fileName) {
-                                Image(uiImage: uiImage)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .padding(16)
-                                    .frame(maxWidth: .infinity)
-                                    .frame(height: 200)
-                                    .background(Color("background"))
-                                    .background(Color.white)
-                                    .cornerRadius(8)
-                            }
-                        }
-                    }
-                }
-                .padding()
-            }
-            .background(Color.white)
+            itemsView(items: viewModel.getItems())
             .sheet(isPresented: $showBottomSheet) {
                 BottomSheetView(onMakePhotot: {
                     showBottomSheet = false
@@ -92,6 +85,26 @@ struct WardrobeView: View {
                     showGallery = true
                 })
                 .presentationDetents([.fraction(0.18)])
+            }
+            .sheet(isPresented: $showSortBottomSheet) {
+                BottomSheetSortView(sort: viewModel.sortByColor) { type in
+                    showSortBottomSheet = false
+                    viewModel.sortByColor = type
+                }
+                .presentationDetents([.fraction(0.26)])
+            }
+            .sheet(isPresented: $showEditBottomSheet) {
+                EditItemView(onDeleteTapped: {
+                    showEditBottomSheet = false
+                    viewModel.onDeleteItem()
+                    viewModel.editingItemFileName = nil
+                    viewModel.selectedCategory = viewModel.selectedCategory
+                }, onLayerChanged: { layer in
+                    showEditBottomSheet = false
+                    viewModel.onEditLayerItem(layer: layer)
+                    viewModel.editingItemFileName = nil
+                    viewModel.selectedCategory = viewModel.selectedCategory
+                }, selectedLayer: viewModel.editingItemLayer)
             }
             .fullScreenCover(isPresented: $showCamera) {
                 CameraView(images: $images)
@@ -109,6 +122,43 @@ struct WardrobeView: View {
                     .environmentObject(coordinator)
             }
         }
+    }
+    
+    func itemsView(items: [WardrobeItem]) -> some View {
+        ScrollView {
+            LazyVGrid(columns: columns, spacing: 8) {
+                ForEach(items, id: \.fileName) { item in
+                    VStack {
+                        if let uiImage = UIImage(filename: item.fileName) {
+                            ZStack(alignment: .topTrailing) {
+                                Image(uiImage: uiImage)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .padding(16)
+                                    .frame(maxWidth: .infinity)
+                                    .frame(height: 200)
+                                    .background(Color("background"))
+                                    .background(Color.white)
+                                    .cornerRadius(8)
+                                Button(action: {
+                                    viewModel.editingItemFileName = item.fileName
+                                    showEditBottomSheet = true
+                                }) {
+                                    Image(uiImage: UIImage(named: "editing")!.withRenderingMode(.alwaysTemplate))
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 16, height: 16)
+                                        .foregroundColor(Color("secondary"))
+                                        .padding(8)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .padding()
+        }
+        .background(Color.white)
     }
     
     func loadImages() {

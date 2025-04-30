@@ -13,6 +13,8 @@ struct EmptyWardrobeView: View {
     @State private var startClassified = false
     @EnvironmentObject var coordinator: TabBarCoordinator
     var text: String? = nil
+    var showCloseButton: Bool = false
+    @Environment(\.dismiss) var dismiss
 
     var body: some View {
         VStack {
@@ -30,29 +32,7 @@ struct EmptyWardrobeView: View {
                     .padding(.top, UIScreen.main.bounds.width + 100)
             }
             Spacer()
-            Button(action: add) {
-                if !isLoading {
-                    Text("Добавить в гардероб")
-                        .font(.system(size: 16, weight: .medium, design: .monospaced))
-                        .foregroundColor(.white)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color("primary"))
-                        .cornerRadius(12)
-                        .shadow(radius: 4)
-                } else {
-                    ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle())
-                        .tint(Color.white)
-                        .scaleEffect(1.2)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color("primary"))
-                        .cornerRadius(12)
-                        .shadow(radius: 4)
-                }
-            }
-            .padding()
+            buttons
             .sheet(isPresented: $showBottomSheet) {
                 BottomSheetView(onMakePhotot: {
                     showBottomSheet = false
@@ -80,6 +60,49 @@ struct EmptyWardrobeView: View {
             ClassifyClothesView(viewModel: viewModel)
                 .environmentObject(coordinator)
         }
+    }
+    
+    var buttons: some View {
+        VStack(spacing: 8) {
+            Button(action: add) {
+                if !isLoading {
+                    Text("Добавить в гардероб")
+                        .font(.system(size: 16, weight: .medium, design: .monospaced))
+                        .foregroundColor(.white)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color("primary"))
+                        .cornerRadius(12)
+                        .shadow(radius: 4)
+                } else {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle())
+                        .tint(Color.white)
+                        .scaleEffect(1.2)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color("primary"))
+                        .cornerRadius(12)
+                        .shadow(radius: 4)
+                }
+            }
+            if showCloseButton {
+                Button(action: close) {
+                    Text("Закрыть")
+                        .font(.system(size: 16, weight: .medium, design: .monospaced))
+                        .foregroundColor(Color("primary"))
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color("background"))
+                        .cornerRadius(12)
+                }
+            }
+        }
+        .padding()
+    }
+    
+    func close() {
+        dismiss()
     }
     
     func loadImages() {
@@ -120,7 +143,7 @@ struct BottomSheetView: View {
                 .padding(.vertical, 12)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .font(.system(size: 16, weight: .bold, design: .monospaced))
-                .foregroundColor(Color.primary)
+                .foregroundColor(Color("primary"))
                 .contentShape(Rectangle())
                 .onTapGesture {
                     onMakePhotot()
@@ -130,7 +153,7 @@ struct BottomSheetView: View {
                 .padding(.vertical, 12)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .font(.system(size: 16, weight: .bold, design: .monospaced))
-                .foregroundColor(Color.primary)
+                .foregroundColor(Color("primary"))
                 .contentShape(Rectangle())
                 .onTapGesture {
                     onSelectFromGallery()
@@ -139,5 +162,95 @@ struct BottomSheetView: View {
         }
         .padding(24)
         .background(Color.white)
+    }
+}
+
+struct BottomSheetSortView: View {
+    let sort: Sort
+    var onSortTapped: (Sort) -> Void
+    var body: some View {
+        VStack(alignment: .leading) {
+            HStack {
+                Text(Sort.fromWhiteToBlack.text)
+                    .padding(.vertical, 12)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .font(.system(size: 16, weight: .bold, design: .monospaced))
+                    .foregroundColor(Color("primary"))
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        onSortTapped(.fromWhiteToBlack)
+                    }
+                Spacer()
+                if sort == .fromWhiteToBlack {
+                    Image(systemName: "checkmark")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .foregroundColor(Color("primary"))
+                        .frame(width: 20, height: 15)
+                }
+            }
+            Divider().background(Color.tertiary)
+            HStack {
+                Text(Sort.similarity.text)
+                    .padding(.vertical, 12)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .font(.system(size: 16, weight: .bold, design: .monospaced))
+                    .foregroundColor(Color("primary"))
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        onSortTapped(.similarity)
+                    }
+                Spacer()
+                if sort == .similarity {
+                    Image(systemName: "checkmark")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .foregroundColor(Color("primary"))
+                        .frame(width: 20, height: 15)
+                }
+            }
+            Divider().background(Color.tertiary)
+            HStack {
+                Text(Sort.none.text)
+                    .padding(.vertical, 12)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .font(.system(size: 16, weight: .bold, design: .monospaced))
+                    .foregroundColor(Color("primary"))
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        onSortTapped(.none)
+                    }
+                Spacer()
+                if sort == .none {
+                    Image(systemName: "checkmark")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .foregroundColor(Color("primary"))
+                        .frame(width: 20, height: 15)
+                }
+            }
+            Spacer()
+        }
+        .padding(24)
+        .background(Color.white)
+    }
+}
+
+extension BottomSheetSortView {
+    enum Sort {
+        case fromWhiteToBlack
+        case similarity
+        case none
+        
+        var text: String {
+            switch self {
+            case .fromWhiteToBlack:
+                return "От светлого к темному"
+            case .similarity:
+                return "Похожие цвета"
+            case .none:
+                return "Без сортировки"
+            }
+        }
     }
 }

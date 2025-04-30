@@ -43,7 +43,7 @@
         {
             "cardigan": {
                 "season": ["fall", "winter", "spring"],
-                "weather": ["moderate", "cold"],
+                "weather": ["moderate", "cold", "rainy"],
                 "event": ["casual", "workwear"],
                 "layer": ["mid"]
             }
@@ -51,7 +51,7 @@
         {
             "fur coat": {
                 "season": ["winter"],
-                "weather": ["cold"],
+                "weather": ["cold", "moderate", "rainy"],
                 "event": ["formal", "casual"],
                 "layer": ["outer"]
             }
@@ -59,7 +59,7 @@
         {
             "gown": {
                 "season": ["spring", "summer", "fall", "winter"],
-                "weather": ["moderate"],
+                "weather": ["moderate", "warm", "rainy", "hot"],
                 "event": ["formal"],
                 "layer": ["outer"]
             }
@@ -67,7 +67,7 @@
         {
             "jersey": {
                 "season": ["spring", "summer", "fall"],
-                "weather": ["warm", "moderate"],
+                "weather": ["warm", "moderate", "cold"],
                 "event": ["casual", "sport"],
                 "layer": ["base"]
             }
@@ -75,7 +75,7 @@
         {
             "T-shirt": {
                 "season": ["spring", "summer", "fall"],
-                "weather": ["warm", "hot"],
+                "weather": ["warm", "hot", "cold", "moderate"],
                 "event": ["casual", "sport"],
                 "layer": ["base"]
             }
@@ -83,7 +83,7 @@
         {
             "tee shirt": {
                 "season": ["spring", "summer", "fall"],
-                "weather": ["warm", "hot"],
+                "weather": ["warm", "hot", "cold", "moderate"],
                 "event": ["casual", "sport"],
                 "layer": ["base"]
             }
@@ -149,7 +149,7 @@
                 "season": ["spring", "summer"],
                 "weather": ["warm", "hot"],
                 "event": ["casual"],
-                "layer": ["mid"]
+                "layer": ["material"]
             }
         },
         {
@@ -157,7 +157,7 @@
                 "season": ["spring", "summer"],
                 "weather": ["warm", "hot"],
                 "event": ["casual"],
-                "layer": ["mid"]
+                "layer": ["material"]
             }
         },
         {
@@ -203,16 +203,16 @@
         {
             "suit": {
                 "season": ["fall", "winter", "spring"],
-                "weather": ["cold", "moderate"],
-                "event": ["formal", "workwear"],
+                "weather": ["cold", "moderate", "warm"],
+                "event": ["formal", "workwear", "casual"],
                 "layer": ["outer"]
             }
         },
         {
             "suit of clothes": {
                 "season": ["fall", "winter", "spring"],
-                "weather": ["cold", "moderate"],
-                "event": ["formal", "workwear"],
+                "weather": ["cold", "moderate", "warm"],
+                "event": ["formal", "workwear", "casual"],
                 "layer": ["outer"]
             }
         },
@@ -221,7 +221,7 @@
                 "season": ["summer"],
                 "weather": ["hot"],
                 "event": ["sport"],
-                "layer": ["base"]
+                "layer": ["material"]
             }
         },
         {
@@ -259,7 +259,7 @@
         {
             "running shoe": {
                 "season": ["spring", "summer", "fall", "winter"],
-                "weather": ["moderate"],
+                "weather": ["moderate", "hot", "warm", "cold", "rainy"],
                 "event": ["sport", "casual"],
                 "layer": ["footwear"]
             }
@@ -483,7 +483,7 @@
         {
             "jean": {
                 "season": ["spring", "summer", "fall", "winter"],
-                "weather": ["moderate", "cold", "hot"],
+                "weather": ["moderate", "cold", "hot", "warm", "rainy"],
                 "event": ["casual", "workwear", "formal"],
                 "layer": ["material"]
             }
@@ -491,7 +491,7 @@
         {
             "blue jean": {
                 "season": ["spring", "summer", "fall", "winter"],
-                "weather": ["moderate", "cold", "hot"],
+                "weather": ["moderate", "cold", "hot", "warm", "rainy"],
                 "event": ["casual", "workwear", "formal"],
                 "layer": ["material"]
             }
@@ -499,7 +499,7 @@
         {
             "denim": {
                 "season": ["spring", "summer", "fall", "winter"],
-                "weather": ["moderate", "cold", "hot"],
+                "weather": ["moderate", "cold", "hot", "warm", "rainy"],
                 "event": ["casual", "workwear", "formal"],
                 "layer": ["material"]
             }
