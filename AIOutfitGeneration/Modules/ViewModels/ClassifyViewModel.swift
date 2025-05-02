@@ -18,11 +18,11 @@ final class ClassifyViewModel: ObservableObject {
     func startClassification() {
         Task {
             let results = await clothingClassifier?.classifyClothing(in: images)
-            var imagesForExtract: [(ClothingItem, UIImage)] = []
+            var imagesForExtractColor: [(ClothingItem, UIImage)] = []
             for result in results ?? [] {
                 switch result {
                 case let .success(item):
-                    imagesForExtract.append(item)
+                    imagesForExtractColor.append(item)
                 case let .failure(error):
                     if let image = error.image {
                         isCloseNotFoundImages.append(image)
@@ -30,35 +30,36 @@ final class ClassifyViewModel: ObservableObject {
                     areThereImagesNotFound = true
                 }
             }
-            extractImage(images: imagesForExtract)
+//            extractImage(images: imagesForExtract)
+            extractColor(images: imagesForExtractColor)
         }
     }
     
-    private func extractImage(images: [(ClothingItem, UIImage)]) {
-        Task { @MainActor in
-            await withTaskGroup(of: (ClothingItem, UIImage)?.self) { group in
-                for image in images {
-                    let viewModel = ImageAnalysisViewModel()
-                    group.addTask {
-                        do {
-                            let detectedObjects = try await viewModel.analyzeImage(image.1)
-                            let extractedImage = try await viewModel.interaction.image(for: detectedObjects)
-                            return (image.0, extractedImage)
-                        } catch {
-                            return nil
-                        }
-                    }
-                }
-                var extractedImages: [(ClothingItem, UIImage)] = []
-                for await extractedImage in group {
-                    if let extractedImage {
-                        extractedImages.append(extractedImage)
-                    }
-                }
-                extractColor(images: extractedImages)
-            }
-        }
-    }
+//    private func extractImage(images: [(ClothingItem, UIImage)]) {
+//        Task { @MainActor in
+//            await withTaskGroup(of: (ClothingItem, UIImage)?.self) { group in
+//                for image in images {
+//                    let viewModel = ImageAnalysisViewModel()
+//                    group.addTask {
+//                        do {
+//                            let detectedObjects = try await viewModel.analyzeImage(image.1)
+//                            let extractedImage = try await viewModel.interaction.image(for: detectedObjects)
+//                            return (image.0, extractedImage)
+//                        } catch {
+//                            return nil
+//                        }
+//                    }
+//                }
+//                var extractedImages: [(ClothingItem, UIImage)] = []
+//                for await extractedImage in group {
+//                    if let extractedImage {
+//                        extractedImages.append(extractedImage)
+//                    }
+//                }
+//                extractColor(images: extractedImages)
+//            }
+//        }
+//    }
     
     private func extractColor(images: [(ClothingItem, UIImage)]) {
         var wardrobeItems: [WardrobeItem] = []
@@ -81,22 +82,19 @@ final class ClassifyViewModel: ObservableObject {
     }
 }
 
-extension ClassifyViewModel {
-    @MainActor
-    class ImageAnalysisViewModel: NSObject, ObservableObject {
-        let analyzer = ImageAnalyzer()
-        let interaction = ImageAnalysisInteraction()
-        var loadedImageView: UIImageView?
-        
-        func analyzeImage(_ image: UIImage) async throws -> Set<ImageAnalysisInteraction.Subject> {
-            let configuration = ImageAnalyzer.Configuration([.visualLookUp])
-            let analysis = try await analyzer.analyze(image, configuration: configuration)
-            interaction.analysis = analysis
-            let detectedSubjects = await interaction.subjects
-            return detectedSubjects
-        }
-    }
+@MainActor
+class ImageAnalysisViewModel: NSObject, ObservableObject {
+    let analyzer = ImageAnalyzer()
+    let interaction = ImageAnalysisInteraction()
+    var loadedImageView: UIImageView?
     
+    func analyzeImage(_ image: UIImage) async throws -> Set<ImageAnalysisInteraction.Subject> {
+        let configuration = ImageAnalyzer.Configuration([.visualLookUp])
+        let analysis = try await analyzer.analyze(image, configuration: configuration)
+        interaction.analysis = analysis
+        let detectedSubjects = await interaction.subjects
+        return detectedSubjects
+    }
 }
 
 extension CGColor {

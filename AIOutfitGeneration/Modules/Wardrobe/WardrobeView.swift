@@ -132,6 +132,7 @@ struct WardrobeView: View {
                         if let uiImage = UIImage(filename: item.fileName) {
                             ZStack(alignment: .topTrailing) {
                                 Image(uiImage: uiImage)
+                                    .interpolation(Image.Interpolation.low)
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
                                     .padding(16)

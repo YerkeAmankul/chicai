@@ -30,6 +30,7 @@ struct ClothesNotFoundView: View {
                 LazyVGrid(columns: columns, spacing: 8) {
                     ForEach(images, id: \.self) { item in
                         Image(uiImage: item)
+                            .interpolation(Image.Interpolation.low)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(maxWidth: .infinity)

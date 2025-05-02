@@ -88,18 +88,21 @@ struct OutfitView: View {
                 if let baseImage = items.first(where: { $0.item.layer.first == .base })?.fileName,
                    let uiImage = UIImage(filename: baseImage) {
                     Image(uiImage: uiImage)
+                        .interpolation(Image.Interpolation.low)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                 }
                 if let baseImage = items.first(where: { $0.item.layer.first == .material })?.fileName,
                    let uiImage = UIImage(filename: baseImage) {
                     Image(uiImage: uiImage)
+                        .interpolation(Image.Interpolation.low)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                 }
                 if let baseImage = items.first(where: { $0.item.layer.first == .footwear })?.fileName,
                    let uiImage = UIImage(filename: baseImage) {
                     Image(uiImage: uiImage)
+                        .interpolation(Image.Interpolation.low)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                 }
@@ -112,12 +115,14 @@ struct OutfitView: View {
                         if let baseImage = items.first(where: { $0.item.layer.first == .mid })?.fileName,
                            let uiImage = UIImage(filename: baseImage) {
                             Image(uiImage: uiImage)
+                                .interpolation(Image.Interpolation.low)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                         }
                         if let baseImage = items.first(where: { $0.item.layer.first == .outer })?.fileName,
                            let uiImage = UIImage(filename: baseImage) {
                             Image(uiImage: uiImage)
+                                .interpolation(Image.Interpolation.low)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                         }
@@ -125,6 +130,7 @@ struct OutfitView: View {
                     if let baseImage = items.first(where: { $0.item.layer.first == .accessory })?.fileName,
                        let uiImage = UIImage(filename: baseImage) {
                         Image(uiImage: uiImage)
+                            .interpolation(Image.Interpolation.low)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                     }

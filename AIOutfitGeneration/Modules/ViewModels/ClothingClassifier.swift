@@ -24,7 +24,15 @@ class ClothingClassifier {
             var results = [Result<(ClothingItem, UIImage), ErrorImage>](repeating: .failure(ErrorImage(image: nil)), count: images.count)
             
             for (index, image) in images.enumerated() {
-                guard let cgImage = image.cgImage else {
+                let viewModel = await ImageAnalysisViewModel()
+                guard let detectedObjects = try? await viewModel.analyzeImage(image),
+                      let extractedImage = try? await viewModel.interaction.image(for: detectedObjects) else {
+                    
+                    results[index] = .failure(ErrorImage(image: nil))
+                    continue
+                }
+                
+                guard let cgImage = extractedImage.cgImage else {
                     results[index] = .failure(ErrorImage(image: nil))
                     continue
                 }
@@ -34,21 +42,30 @@ class ClothingClassifier {
                         let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
                         try handler.perform([request])
                         
-                        if let classifications = request.results as? [VNClassificationObservation],
-                           let topResult = classifications.first {
-                            if arrayOfkeys.contains(where: { topResult.identifier.contains($0) }),
-                               let item = clothingDataBase.first(where: { database in
-                                   return topResult.identifier.contains(database.key)
-                               })?.value {
-                                return (index, .success((item, image)))
+                        if let classifications = request.results as? [VNClassificationObservation] {
+                            var topResult: VNClassificationObservation?
+                            for classification in classifications.prefix(10) {
+                                if arrayOfkeys.contains(where: { classification.identifier.lowercased().contains($0.lowercased()) }) {
+                                    topResult = classification
+                                    break
+                                }
+                            }
+                            if let topResult = topResult {
+                                if let item = clothingDataBase.first(where: { database in
+                                    return topResult.identifier.lowercased().contains(database.key.lowercased())
+                                })?.value {
+                                    return (index, .success((item, extractedImage)))
+                                } else {
+                                    return (index, .failure(ErrorImage(image: extractedImage)))
+                                }
                             } else {
-                                return (index, .failure(ErrorImage(image: image)))
+                                return (index, .failure(ErrorImage(image: extractedImage)))
                             }
                         } else {
-                            return (index, .failure(ErrorImage(image: image)))
+                            return (index, .failure(ErrorImage(image: extractedImage)))
                         }
                     } catch {
-                        return (index, .failure(ErrorImage(image: image)))
+                        return (index, .failure(ErrorImage(image: extractedImage)))
                     }
                 }
             }

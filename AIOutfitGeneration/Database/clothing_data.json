@@ -503,6 +503,38 @@
                 "event": ["casual", "workwear", "formal"],
                 "layer": ["material"]
             }
+        },
+        {
+            "sweatshirt": {
+                "season": ["spring", "summer", "fall", "winter"],
+                "weather": ["moderate", "cold", "warm", "rainy"],
+                "event": ["casual", "workwear", "formal"],
+                "layer": ["mid"]
+            }
+        },
+        {
+            "wool": {
+                "season": ["spring", "summer", "fall", "winter"],
+                "weather": ["moderate", "cold", "rainy"],
+                "event": ["casual", "workwear", "formal"],
+                "layer": ["outer"]
+            }
+        },
+        {
+            "woolen": {
+                "season": ["spring", "summer", "fall", "winter"],
+                "weather": ["moderate", "cold", "rainy"],
+                "event": ["casual", "workwear", "formal"],
+                "layer": ["outer"]
+            }
+        },
+        {
+            "woollen": {
+                "season": ["spring", "summer", "fall", "winter"],
+                "weather": ["moderate", "cold", "rainy"],
+                "event": ["casual", "workwear", "formal"],
+                "layer": ["outer"]
+            }
         }
     ]
 }
