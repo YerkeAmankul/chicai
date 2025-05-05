@@ -8,7 +8,18 @@ final class WardrobeViewModel: ObservableObject {
         getItems().first(where: { $0.fileName == editingItemFileName })?.item.layer.first
     }
 
-    var categrories: [Layer] = [.all, .base, .mid, .outer, .material, .footwear, .accessory]
+    var categrories: [Layer] {
+        let allLayers: [Layer] = [.all, .base, .mid, .outer, .material, .footwear, .accessory]
+        var layers = Array(Set(WardrobeFileManager.shared.read().map { $0.item.layer }.flatMap { $0 }))
+        layers.sort {
+            guard let firstIndex = allLayers.firstIndex(of: $0),
+                  let secondIndex = allLayers.firstIndex(of: $1) else {
+                return false
+            }
+            return firstIndex < secondIndex
+        }
+       return [.all] + layers
+    }
     var items: [String : ClothingItem] {
         guard selectedCategory != .all else {
             return [:]

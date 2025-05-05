@@ -129,29 +129,25 @@ struct WardrobeView: View {
             LazyVGrid(columns: columns, spacing: 8) {
                 ForEach(items, id: \.fileName) { item in
                     VStack {
-                        if let uiImage = UIImage(filename: item.fileName) {
-                            ZStack(alignment: .topTrailing) {
-                                Image(uiImage: uiImage)
-                                    .interpolation(Image.Interpolation.low)
+                        ZStack(alignment: .topTrailing) {
+                            AsyncDownsampledImage(filePath: item.fileName, size: CGSize(width: 200, height: 200))
+                                .id(item.fileName)
+                                .padding(16)
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 200)
+                                .background(Color("background"))
+                                .background(Color.white)
+                                .cornerRadius(8)
+                            Button(action: {
+                                viewModel.editingItemFileName = item.fileName
+                                showEditBottomSheet = true
+                            }) {
+                                Image(uiImage: UIImage(named: "editing")!.withRenderingMode(.alwaysTemplate))
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
-                                    .padding(16)
-                                    .frame(maxWidth: .infinity)
-                                    .frame(height: 200)
-                                    .background(Color("background"))
-                                    .background(Color.white)
-                                    .cornerRadius(8)
-                                Button(action: {
-                                    viewModel.editingItemFileName = item.fileName
-                                    showEditBottomSheet = true
-                                }) {
-                                    Image(uiImage: UIImage(named: "editing")!.withRenderingMode(.alwaysTemplate))
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 16, height: 16)
-                                        .foregroundColor(Color("secondary"))
-                                        .padding(8)
-                                }
+                                    .frame(width: 16, height: 16)
+                                    .foregroundColor(Color("secondary"))
+                                    .padding(8)
                             }
                         }
                     }
@@ -183,17 +179,17 @@ struct WardrobeView: View {
     }
 }
 
-extension UIImage {
-    convenience init?(filename: String, scale: CGFloat = 1.0) {
-        let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        let fileURL = documentsPath.appendingPathComponent(filename)
-        
-        do {
-            let data = try Data(contentsOf: fileURL)
-            self.init(data: data, scale: scale)
-        } catch {
-            print("Error loading image: \(error)")
-            return nil
-        }
-    }
-}
+//extension UIImage {
+//    convenience init?(filename: String, scale: CGFloat = 1.0) {
+//        let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+//        let fileURL = documentsPath.appendingPathComponent(filename)
+//        
+//        do {
+//            let data = try Data(contentsOf: fileURL)
+//            self.init(data: data, scale: scale)
+//        } catch {
+//            print("Error loading image: \(error)")
+//            return nil
+//        }
+//    }
+//}
