@@ -30,36 +30,9 @@ final class ClassifyViewModel: ObservableObject {
                     areThereImagesNotFound = true
                 }
             }
-//            extractImage(images: imagesForExtract)
             extractColor(images: imagesForExtractColor)
         }
     }
-    
-//    private func extractImage(images: [(ClothingItem, UIImage)]) {
-//        Task { @MainActor in
-//            await withTaskGroup(of: (ClothingItem, UIImage)?.self) { group in
-//                for image in images {
-//                    let viewModel = ImageAnalysisViewModel()
-//                    group.addTask {
-//                        do {
-//                            let detectedObjects = try await viewModel.analyzeImage(image.1)
-//                            let extractedImage = try await viewModel.interaction.image(for: detectedObjects)
-//                            return (image.0, extractedImage)
-//                        } catch {
-//                            return nil
-//                        }
-//                    }
-//                }
-//                var extractedImages: [(ClothingItem, UIImage)] = []
-//                for await extractedImage in group {
-//                    if let extractedImage {
-//                        extractedImages.append(extractedImage)
-//                    }
-//                }
-//                extractColor(images: extractedImages)
-//            }
-//        }
-//    }
     
     private func extractColor(images: [(ClothingItem, UIImage)]) {
         var wardrobeItems: [WardrobeItem] = []

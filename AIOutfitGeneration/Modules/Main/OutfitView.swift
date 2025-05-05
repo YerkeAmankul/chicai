@@ -6,7 +6,10 @@ struct OutfitView: View {
     @ObservedObject var viewModel: OutfitViewModel
     @Environment(\.dismiss) var dismiss
     @State var isOutfitGenerated = false
-
+    
+    private let itemHeight: CGFloat = (UIScreen.main.bounds.height - 200) / 2
+    private let itemWidth: CGFloat = (UIScreen.main.bounds.width - 32) / 2
+    
     private let columns = [
         GridItem(.flexible(), spacing: 8),
         GridItem(.flexible(), spacing: 8),
@@ -30,7 +33,7 @@ struct OutfitView: View {
                 }.padding()
             } else {
                 GeometryReader { proxy in
-                    combinationView(items: viewModel.selectedCombination)
+                    combinationView(items: viewModel.selectedCombination, itemSize: CGSize(width: itemWidth, height: itemHeight))
                         .frame(maxWidth: .infinity, maxHeight: proxy.size.height, alignment: .top)
                         .background(Color("background"))
                         .clipShape(RoundedRectangle(cornerRadius: 12))
@@ -47,7 +50,7 @@ struct OutfitView: View {
                         HStack(spacing: 10) {
                             ForEach(viewModel.combinations.indices, id: \.self) { index in
                                 let item = viewModel.combinations[index]
-                                combinationView(items: item)
+                                combinationView(items: item, itemSize: CGSize(width: 100, height: 100))
                                     .frame(width: UIScreen.main.bounds.width/2.3, height: UIScreen.main.bounds.width/2.3)
                                     .background(Color("background"))
                                     .clipShape(RoundedRectangle(cornerRadius: 12))
@@ -82,29 +85,17 @@ struct OutfitView: View {
         }
     }
     
-    private func combinationView(items: [WardrobeItem]) -> some View {
+    private func combinationView(items: [WardrobeItem], itemSize: CGSize) -> some View {
         HStack(alignment: .center) {
             VStack(alignment: .center) {
-                if let baseImage = items.first(where: { $0.item.layer.first == .base })?.fileName,
-                   let uiImage = UIImage(filename: baseImage) {
-                    Image(uiImage: uiImage)
-                        .interpolation(Image.Interpolation.low)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
+                if let baseImage = items.first(where: { $0.item.layer.first == .base })?.fileName {
+                    AsyncDownsampledImage(filePath: baseImage, size: itemSize).id(baseImage)
                 }
-                if let baseImage = items.first(where: { $0.item.layer.first == .material })?.fileName,
-                   let uiImage = UIImage(filename: baseImage) {
-                    Image(uiImage: uiImage)
-                        .interpolation(Image.Interpolation.low)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
+                if let baseImage = items.first(where: { $0.item.layer.first == .material })?.fileName {
+                    AsyncDownsampledImage(filePath: baseImage, size: itemSize).id(baseImage)
                 }
-                if let baseImage = items.first(where: { $0.item.layer.first == .footwear })?.fileName,
-                   let uiImage = UIImage(filename: baseImage) {
-                    Image(uiImage: uiImage)
-                        .interpolation(Image.Interpolation.low)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
+                if let baseImage = items.first(where: { $0.item.layer.first == .footwear })?.fileName {
+                    AsyncDownsampledImage(filePath: baseImage, size: itemSize).id(baseImage)
                 }
             }
             if items.first(where: { $0.item.layer.first == .mid })?.fileName != nil ||
@@ -112,34 +103,79 @@ struct OutfitView: View {
                 items.first(where: { $0.item.layer.first == .accessory })?.fileName != nil {
                 VStack(alignment: .center) {
                     HStack(alignment: .center) {
-                        if let baseImage = items.first(where: { $0.item.layer.first == .mid })?.fileName,
-                           let uiImage = UIImage(filename: baseImage) {
-                            Image(uiImage: uiImage)
-                                .interpolation(Image.Interpolation.low)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
+                        if let baseImage = items.first(where: { $0.item.layer.first == .mid })?.fileName {
+                            AsyncDownsampledImage(filePath: baseImage, size: itemSize).id(baseImage)
                         }
-                        if let baseImage = items.first(where: { $0.item.layer.first == .outer })?.fileName,
-                           let uiImage = UIImage(filename: baseImage) {
-                            Image(uiImage: uiImage)
-                                .interpolation(Image.Interpolation.low)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
+                        if let baseImage = items.first(where: { $0.item.layer.first == .outer })?.fileName {
+                            AsyncDownsampledImage(filePath: baseImage, size: itemSize).id(baseImage)
                         }
                     }
-                    if let baseImage = items.first(where: { $0.item.layer.first == .accessory })?.fileName,
-                       let uiImage = UIImage(filename: baseImage) {
-                        Image(uiImage: uiImage)
-                            .interpolation(Image.Interpolation.low)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
+                    if let baseImage = items.first(where: { $0.item.layer.first == .accessory })?.fileName {
+                        AsyncDownsampledImage(filePath: baseImage, size: itemSize).id(baseImage)
                     }
                 }
             }
         }.padding()
     }
-    
+        
     private func makeThumbnailAnimation() async throws -> LottieAnimationSource? {
         try await DotLottieFile.named("classifing").animationSource
+    }
+    
+    struct AsyncDownsampledImage: View {
+        let filePath: String
+        let size: CGSize
+
+        @State private var image: UIImage?
+
+        var body: some View {
+            Group {
+                if let image = image {
+                    Image(uiImage: image)
+                        .interpolation(Image.Interpolation.low)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                } else {
+                    ProgressView()
+                        .frame(width: size.width, height: size.height)
+                }
+            }
+            .onAppear {
+                if image == nil {
+                    loadDownsampledImageAsync(from: filePath, to: size) { loadedImage in
+                        self.image = loadedImage
+                    }
+                }
+            }
+        }
+        
+        private func loadDownsampledImageAsync(from filePath: String, to pointSize: CGSize, scale: CGFloat = UIScreen.main.scale, completion: @escaping (UIImage?) -> Void) {
+            DispatchQueue.global(qos: .userInitiated).async {
+                let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+                let fileURL = documentsPath.appendingPathComponent(filePath)
+                let imageSourceOptions = [kCGImageSourceShouldCache: false] as CFDictionary
+                
+                guard let imageSource = CGImageSourceCreateWithURL(fileURL as CFURL, imageSourceOptions) else {
+                    DispatchQueue.main.async { completion(nil) }
+                    return
+                }
+                
+                let maxDimensionInPixels = max(pointSize.width, pointSize.height) * scale
+                let downsampleOptions = [
+                    kCGImageSourceCreateThumbnailFromImageAlways: true,
+                    kCGImageSourceShouldCacheImmediately: true,
+                    kCGImageSourceCreateThumbnailWithTransform: true,
+                    kCGImageSourceThumbnailMaxPixelSize: maxDimensionInPixels
+                ] as CFDictionary
+                
+                guard let downsampledImage = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, downsampleOptions) else {
+                    DispatchQueue.main.async { completion(nil) }
+                    return
+                }
+                
+                let uiImage = UIImage(cgImage: downsampledImage)
+                DispatchQueue.main.async { completion(uiImage) }
+            }
+        }
     }
 }
