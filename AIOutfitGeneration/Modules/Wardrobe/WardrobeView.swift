@@ -178,18 +178,3 @@ struct WardrobeView: View {
         }
     }
 }
-
-//extension UIImage {
-//    convenience init?(filename: String, scale: CGFloat = 1.0) {
-//        let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-//        let fileURL = documentsPath.appendingPathComponent(filename)
-//        
-//        do {
-//            let data = try Data(contentsOf: fileURL)
-//            self.init(data: data, scale: scale)
-//        } catch {
-//            print("Error loading image: \(error)")
-//            return nil
-//        }
-//    }
-//}

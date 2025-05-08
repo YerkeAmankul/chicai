@@ -24,7 +24,7 @@ struct EmptyWardrobeView: View {
                 }
                 .looping()
                 .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width)
-                Text(text ?? "Гардероб ждёт первых вещей! Добавьте их, и мы создадим лук дня.")
+                Text(text ?? String(localized: "Гардероб ждёт первых вещей! Добавьте их, и мы создадим лук дня."))
                     .foregroundColor(Color("primary"))
                     .font(.system(size: 16, weight: .regular, design: .monospaced))
                     .multilineTextAlignment(.center)
@@ -245,11 +245,11 @@ extension BottomSheetSortView {
         var text: String {
             switch self {
             case .fromWhiteToBlack:
-                return "От светлого к темному"
+                return String(localized: "От светлого к темному")
             case .similarity:
-                return "Похожие цвета"
+                return String(localized: "Похожие цвета")
             case .none:
-                return "Без сортировки"
+                return String(localized: "Без сортировки")
             }
         }
     }

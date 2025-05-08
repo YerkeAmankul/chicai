@@ -66,19 +66,19 @@ enum Event: String, Codable {
     var text: String {
         switch self {
         case .casual:
-            return "Повседневный"
+            return String(localized: "Повседневный")
         case .formal:
-            return "Официальный"
+            return String(localized: "Официальный")
         case .workwear:
-            return "Рабочий стиль"
+            return String(localized: "Рабочий стиль")
         case .sport:
-            return "Спортивный"
+            return String(localized: "Спортивный")
         case .religious:
             return "Религиозный"
         case .cultural:
             return "Культурный"
         case .home:
-            return "Домашний"
+            return String(localized: "Домашний")
         }
     }
 }
@@ -99,19 +99,19 @@ enum Layer: String, Codable, Equatable {
     var text: String {
         switch self {
         case .all:
-            return "Все"
+            return String(localized: "Все")
         case .base:
-            return "Базовый слой"
+            return String(localized: "Базовый слой")
         case .mid:
-            return "Средний слой"
+            return String(localized: "Средний слой")
         case .outer:
-            return "Верхний слой"
+            return String(localized: "Верхний слой")
         case .accessory:
-            return "Аксессуар"
+            return String(localized: "Аксессуар")
         case .footwear:
-            return "Обувь"
+            return String(localized: "Обувь")
         case .material:
-            return "Низ"
+            return String(localized: "Низ")
         }
     }
 }
