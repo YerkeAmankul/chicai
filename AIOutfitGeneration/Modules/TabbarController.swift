@@ -39,6 +39,18 @@ struct EmptyTabbarController: View {
                         Text("Гардероб")
                     }
                 }
+            SettingsView()
+                .environmentObject(coordinator)
+                .tabItem {
+                    VStack {
+                        Image(uiImage: UIImage(systemName: "gearshape")!.resized(to: CGSize(width: 40, height: 40)))
+                            .renderingMode(.template)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 24, height: 24)
+                        Text("Настройки")
+                    }
+                }
         }
         .background(Color.white)
         .tint(Color("primary"))
@@ -79,6 +91,18 @@ struct TabbarController: View {
                             .resizable()
                             .scaledToFit()
                         Text("Гардероб")
+                    }
+                }
+            SettingsView()
+                .environmentObject(coordinator)
+                .tabItem {
+                    VStack {
+                        Image(uiImage: UIImage(systemName: "gearshape")!.resized(to: CGSize(width: 26, height: 26)))
+                            .renderingMode(.template)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 24, height: 24)
+                        Text("Настройки")
                     }
                 }
         }
