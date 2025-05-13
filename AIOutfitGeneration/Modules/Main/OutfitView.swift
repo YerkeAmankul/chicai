@@ -9,6 +9,10 @@ struct OutfitView: View {
     
     private let itemHeight: CGFloat = (UIScreen.main.bounds.height - 200) / 2
     private let itemWidth: CGFloat = (UIScreen.main.bounds.width - 32) / 2
+    @State private var selectedCombinationViewHeight: CGFloat = 0
+    
+    @State private var showShareSheet = false
+    @State private var sharedImage: UIImage?
     
     private let columns = [
         GridItem(.flexible(), spacing: 8),
@@ -32,13 +36,7 @@ struct OutfitView: View {
                         .padding(.horizontal)
                 }.padding()
             } else {
-                GeometryReader { proxy in
-                    combinationView(items: viewModel.selectedCombination, itemSize: CGSize(width: itemWidth, height: itemHeight))
-                        .frame(maxWidth: .infinity, maxHeight: proxy.size.height, alignment: .top)
-                        .background(Color("background"))
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                        .padding()
-                }
+                selectedCombitinationView
                 VStack {
                     LinearGradient(
                         gradient: Gradient(colors: [Color.black.opacity(0.2), Color.clear]),
@@ -83,6 +81,47 @@ struct OutfitView: View {
         }) {
             EmptyWardrobeView(text: viewModel.notEnoughItemsForCombination?.text, showCloseButton: true)
         }
+        .sheet(isPresented: $showShareSheet) {
+            if let image = sharedImage {
+                ShareSheet(image: image)
+            }
+        }
+    }
+    
+    private var selectedCombitinationView: some View {
+        GeometryReader { proxy in
+            ZStack(alignment: .topTrailing) {
+                combinationView(items: viewModel.selectedCombination, itemSize: CGSize(width: itemWidth, height: itemHeight))
+                    .frame(maxWidth: .infinity, maxHeight: proxy.size.height, alignment: .top)
+                    .background(Color("background"))
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .padding()
+                    .onAppear {
+                        selectedCombinationViewHeight = proxy.size.height
+                    }
+                Button(action: {
+                    if let topView = getTopViewController()?.view {
+                        sharedImage = topView.asImage(rect: CGRect(x: 16, y: 16, width: Int(UIScreen.main.bounds.width - 32), height: Int(selectedCombinationViewHeight - 32)))
+                    }
+                    showShareSheet = true
+                }) {
+                    Image(systemName: "square.and.arrow.up")
+                        .foregroundColor(Color("primary"))
+                        .padding()
+                        .frame(width: 44, height: 44)
+                }
+                .padding([.top, .trailing], 16)
+                .zIndex(1)
+            }
+        }
+    }
+    
+    private func getTopViewController() -> UIViewController? {
+        var topController = UIApplication.shared.windows.filter {$0.isKeyWindow}.first?.rootViewController
+        while let presentedVC = topController?.presentedViewController {
+            topController = presentedVC
+        }
+        return topController
     }
     
     private func combinationView(items: [WardrobeItem], itemSize: CGSize) -> some View {
@@ -121,4 +160,24 @@ struct OutfitView: View {
     private func makeThumbnailAnimation() async throws -> LottieAnimationSource? {
         try await DotLottieFile.named("classifing").animationSource
     }
+}
+
+extension UIView {
+    func asImage(rect: CGRect) -> UIImage {
+        let renderer = UIGraphicsImageRenderer(bounds: rect)
+        return renderer.image { rendererContext in
+            layer.render(in: rendererContext.cgContext)
+        }
+    }
+}
+
+struct ShareSheet: UIViewControllerRepresentable {
+    let image: UIImage
+
+    func makeUIViewController(context: Context) -> UIActivityViewController {
+        let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+        return controller
+    }
+
+    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
 }
