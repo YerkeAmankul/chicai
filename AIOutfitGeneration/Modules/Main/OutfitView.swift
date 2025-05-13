@@ -14,6 +14,8 @@ struct OutfitView: View {
     @State private var showShareSheet = false
     @State private var sharedImage: UIImage?
     
+    @State private var hideShareButton: Bool = false
+    
     private let columns = [
         GridItem(.flexible(), spacing: 8),
         GridItem(.flexible(), spacing: 8),
@@ -99,19 +101,25 @@ struct OutfitView: View {
                     .onAppear {
                         selectedCombinationViewHeight = proxy.size.height
                     }
-                Button(action: {
-                    if let topView = getTopViewController()?.view {
-                        sharedImage = topView.asImage(rect: CGRect(x: 16, y: 16, width: Int(UIScreen.main.bounds.width - 32), height: Int(selectedCombinationViewHeight - 32)))
+                if !hideShareButton {
+                    Button(action: {
+                        hideShareButton = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            if let topView = getTopViewController()?.view {
+                                sharedImage = topView.asImage(rect: CGRect(x: 16, y: 16, width: Int(UIScreen.main.bounds.width - 32), height: Int(selectedCombinationViewHeight - 32)))
+                            }
+                            showShareSheet = true
+                            hideShareButton = false
+                        }
+                    }) {
+                        Image(systemName: "square.and.arrow.up")
+                            .foregroundColor(Color("primary"))
+                            .padding()
+                            .frame(width: 44, height: 44)
                     }
-                    showShareSheet = true
-                }) {
-                    Image(systemName: "square.and.arrow.up")
-                        .foregroundColor(Color("primary"))
-                        .padding()
-                        .frame(width: 44, height: 44)
+                    .padding([.top, .trailing], 16)
+                    .zIndex(1)
                 }
-                .padding([.top, .trailing], 16)
-                .zIndex(1)
             }
         }
     }
