@@ -5,7 +5,7 @@ struct MainView: View {
     @State private var isPresented = false
     @ObservedObject private var viewModel = MainViewModel()
     @State private var isWetherOn = true
-    
+
     var body: some View {
         VStack {
             ZStack {

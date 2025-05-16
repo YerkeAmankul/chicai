@@ -98,7 +98,7 @@ final class OutfitViewModel: ObservableObject {
                 for i in 0..<combination.count {
                     for j in (i + 1)..<combination.count {
                         let score = colorCompatibility(hex1: combination[i].color, hex2: combination[j].color).score
-                        if score.rawValue < OutfitViewModel.CombinationScore.carefful.rawValue {
+                        if score.rawValue < OutfitViewModel.CombinationScore.controversial.rawValue {
                             return false
                         }
                     }

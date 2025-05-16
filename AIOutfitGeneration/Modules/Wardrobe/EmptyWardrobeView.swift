@@ -41,7 +41,7 @@ struct EmptyWardrobeView: View {
                     showBottomSheet = false
                     showGallery = true
                 })
-                .presentationDetents([.fraction(0.18)])
+                .presentationDetents([.fraction(0.3)])
             }
             .fullScreenCover(isPresented: $showCamera) {
                 CameraView(images: $images)
@@ -139,6 +139,12 @@ struct BottomSheetView: View {
     var onSelectFromGallery: () -> Void
     var body: some View {
         VStack(alignment: .leading) {
+            Text("Старайтесь размещать одежду ближе к центру — так система точнее её распознает")
+                .multilineTextAlignment(.center)
+                .frame(maxWidth: .infinity, alignment: .center)
+                .font(.system(size: 16, weight: .medium, design: .monospaced))
+                .foregroundColor(Color("primary"))
+                .padding(.bottom, 16)
             Text("Сделать снимок")
                 .padding(.vertical, 12)
                 .frame(maxWidth: .infinity, alignment: .leading)

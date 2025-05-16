@@ -6,13 +6,32 @@
 //
 
 import SwiftUI
+import StoreKit
 
 @main
 struct AIOutfitGenerationApp: App {
-
+    @StateObject private var startupManager = StartupManager()
+    
     var body: some Scene {
         WindowGroup {
-            AppView()
+            Group {
+                if startupManager.isReady {
+                    AppView()
+                } else {
+                    VStack {
+                        Spacer()
+                        Image(uiImage: UIImage(named: "appicon")!)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .padding(80)
+                            .cornerRadius(16)
+                        Spacer()
+                    }.background(Color("background")).ignoresSafeArea()
+                }
+            }
+            .task {
+                await startupManager.initialize()
+            }
         }
     }
 }

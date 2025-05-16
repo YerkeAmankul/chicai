@@ -12,10 +12,12 @@ struct OutfitView: View {
     @State private var selectedCombinationViewHeight: CGFloat = 0
     
     @State private var showShareSheet = false
+    @State private var showIAP: Bool = false
     @State private var sharedImage: UIImage?
     
     @State private var hideShareButton: Bool = false
-    
+    @StateObject private var subscriptionManager = SubscriptionManager()
+
     private let columns = [
         GridItem(.flexible(), spacing: 8),
         GridItem(.flexible(), spacing: 8),
@@ -50,17 +52,26 @@ struct OutfitView: View {
                         HStack(spacing: 10) {
                             ForEach(viewModel.combinations.indices, id: \.self) { index in
                                 let item = viewModel.combinations[index]
-                                combinationView(items: item, itemSize: CGSize(width: 100, height: 100))
-                                    .frame(width: UIScreen.main.bounds.width/2.3, height: UIScreen.main.bounds.width/2.3)
-                                    .background(Color("background"))
-                                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                                    .onTapGesture {
+                                ZStack {
+                                    combinationView(items: item, itemSize: CGSize(width: 100, height: 100))
+                                        .blur(radius: (IAPManager.shared.isSubscribed || index == 0) ? 0 : 15)
+                                }
+                                .frame(width: UIScreen.main.bounds.width / 2.3,
+                                       height: UIScreen.main.bounds.width / 2.3)
+                                .background(Color("background"))
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                                .onTapGesture {
+                                    if IAPManager.shared.isSubscribed {
                                         viewModel.selectedIndex = index
+                                    } else {
+                                        showIAP = true
                                     }
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 12)
-                                            .stroke(viewModel.selectedIndex == index ? Color("primary") : Color.clear, lineWidth: 1.5)
-                                    ).padding(1)
+                                }
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .stroke(viewModel.selectedIndex == index ? Color("primary") : Color.clear, lineWidth: 1.5)
+                                )
+                                .padding(1)
                             }
                         }
                         .padding(.horizontal)
@@ -71,6 +82,7 @@ struct OutfitView: View {
         }
         .background(Color.white)
         .onAppear {
+            subscriptionManager.fetchSubscription()
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 if !isOutfitGenerated {
                     viewModel.generateOutfit()
@@ -87,6 +99,14 @@ struct OutfitView: View {
             if let image = sharedImage {
                 ShareSheet(image: image)
             }
+        }.sheet(isPresented: $showIAP) {
+            IAPView(manager: subscriptionManager)
+                .onAppear {
+                    subscriptionManager.onSubscriptionSuccess = {
+                        showIAP = false
+                        viewModel.selectedIndex = 0
+                    }
+                }
         }
     }
     

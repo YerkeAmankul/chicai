@@ -306,6 +306,34 @@
         }
       }
     },
+    "Ваш стиль — без ограничений" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your style, without limits"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu estilo, sin límites"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "당신의 스타일, 제한 없이"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ваш стиль — без ограничений"
+          }
+        }
+      }
+    },
     "Верхний слой" : {
       "localizations" : {
         "en" : {
@@ -330,6 +358,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Верхний слой"
+          }
+        }
+      }
+    },
+    "Восстановить" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restore"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restaurar"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "복원하다"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Восстановить"
           }
         }
       }
@@ -502,6 +558,63 @@
         }
       }
     },
+    "год" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "year"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "año"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "년도"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "год"
+          }
+        }
+      }
+    },
+    "Годовая подписка" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annual subscription"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suscripción anual"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "연간 구독"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Годовая подписка"
+          }
+        }
+      }
+    },
     "Да" : {
       "localizations" : {
         "en" : {
@@ -582,6 +695,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Добавить в гардероб"
+          }
+        }
+      }
+    },
+    "Добавляйте всё, что нравится. Получайте образы, которые вдохновляют. Каждый день" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add everything you love. Get inspiring outfits — every day"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agrega todo lo que te gusta. Recibe conjuntos que inspiran — cada día"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "좋아하는 모든 옷을 추가하세요. 매일 영감을 주는 룩을 받아보세요"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавляйте всё, что нравится. Получайте образы, которые вдохновляют. Каждый день"
           }
         }
       }
@@ -726,6 +867,63 @@
         }
       }
     },
+    "месяц" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "month"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "mes"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "월"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "месяц"
+          }
+        }
+      }
+    },
+    "Месячная подписка" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Monthly subscription"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suscripción mensual"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "월 구독"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Месячная подписка"
+          }
+        }
+      }
+    },
     "Настройки" : {
       "localizations" : {
         "en" : {
@@ -778,6 +976,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Нет"
+          }
+        }
+      }
+    },
+    "Нет покупок для восстановления" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No purchases to restore"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No hay compras para restaurar"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "복원할 구매가 없습니다"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нет покупок для восстановления"
           }
         }
       }
@@ -862,6 +1088,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ой, наш ИИ немного запутался – среди загруженных фото есть те, что не про одежду"
+          }
+        }
+      }
+    },
+    "Ок" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ок"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "좋아요"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ок"
           }
         }
       }
@@ -1227,6 +1475,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Средний слой"
+          }
+        }
+      }
+    },
+    "Старайтесь размещать одежду ближе к центру — так система точнее её распознает" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try to place clothes closer to the center - this way the system will recognize them more accurately"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Intente colocar la ropa más cerca del centro: de esta manera, el sistema la reconocerá con mayor precisión"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "옷을 중앙에 더 가깝게 놓으십시오. 이렇게 하면 시스템이 옷을 더 정확하게 인식할 수 있습니다"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Старайтесь размещать одежду ближе к центру — так система точнее её распознает"
           }
         }
       }

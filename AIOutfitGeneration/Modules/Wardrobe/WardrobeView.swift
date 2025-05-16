@@ -5,6 +5,7 @@ struct WardrobeView: View {
     
     @ObservedObject private var viewModel = WardrobeViewModel()
     @State private var showBottomSheet = false
+    @State private var showIAP = false
     @State private var showSortBottomSheet = false
     @State private var showEditBottomSheet = false
     @State private var images: [UIImage]?
@@ -18,9 +19,13 @@ struct WardrobeView: View {
         GridItem(.flexible(), spacing: 8),
         GridItem(.flexible(), spacing: 8)
     ]
+    private var maxFreeWardrobeCount: Int? {
+        IAPManager.shared.isSubscribed ? nil : 10
+    }
     
     @EnvironmentObject var coordinator: TabBarCoordinator
-    
+    @StateObject private var subscriptionManager = SubscriptionManager()
+
     var body: some View {
         VStack(alignment: .leading) {
             HStack(alignment: .center) {
@@ -43,7 +48,15 @@ struct WardrobeView: View {
                             .font(.system(size: 40))
                             .foregroundColor(Color("primary"))
                             .onTapGesture {
-                                showBottomSheet = true
+                                if let maxFreeWardrobeCount {
+                                    if viewModel.getItems().count < maxFreeWardrobeCount {
+                                        showBottomSheet = true
+                                    } else {
+                                        showIAP = true
+                                    }
+                                } else {
+                                    showBottomSheet = true
+                                }
                             }
                     }
                 } else {
@@ -84,7 +97,7 @@ struct WardrobeView: View {
                     showBottomSheet = false
                     showGallery = true
                 })
-                .presentationDetents([.fraction(0.18)])
+                .presentationDetents([.fraction(0.3)])
             }
             .sheet(isPresented: $showSortBottomSheet) {
                 BottomSheetSortView(sort: viewModel.sortByColor) { type in
@@ -109,7 +122,12 @@ struct WardrobeView: View {
             .fullScreenCover(isPresented: $showCamera) {
                 CameraView(images: $images)
             }
-            .photosPicker(isPresented: $showGallery, selection: $selectedItems, matching: .images)
+            .photosPicker(
+                isPresented: $showGallery,
+                selection: $selectedItems,
+                maxSelectionCount: maxFreeWardrobeCount == nil ? nil : (maxFreeWardrobeCount! - viewModel.getItems().count),
+                matching: .images
+            )
             .onChange(of: selectedItems) { _, _ in
                 loadImages()
             }
@@ -120,6 +138,15 @@ struct WardrobeView: View {
                 let viewModel = ClassifyViewModel(coordinator: coordinator, images: images ?? [])
                 ClassifyClothesView(viewModel: viewModel)
                     .environmentObject(coordinator)
+            }
+            .sheet(isPresented: $showIAP) {
+                IAPView(manager: subscriptionManager)
+                    .onAppear {
+                        subscriptionManager.onSubscriptionSuccess = {
+                            showIAP = false
+                            showBottomSheet = true
+                        }
+                    }
             }
         }
     }
