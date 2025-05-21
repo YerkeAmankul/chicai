@@ -94,6 +94,7 @@ struct WardrobeView: View {
                     showBottomSheet = false
                     showCamera = true
                 }, onSelectFromGallery: {
+                    selectedItems.removeAll()
                     showBottomSheet = false
                     showGallery = true
                 })

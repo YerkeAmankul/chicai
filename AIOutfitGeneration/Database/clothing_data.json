@@ -489,6 +489,14 @@
             }
         },
         {
+            "overskirt": {
+                "season": ["spring", "summer", "fall", "winter"],
+                "weather": ["moderate", "cold", "hot", "warm", "rainy"],
+                "event": ["casual", "workwear", "formal", "sport"],
+                "layer": ["material"]
+            }
+        },
+        {
             "blue jean": {
                 "season": ["spring", "summer", "fall", "winter"],
                 "weather": ["moderate", "cold", "hot", "warm", "rainy"],
