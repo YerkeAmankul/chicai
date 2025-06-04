@@ -31,7 +31,7 @@ struct SettingsView: View {
                     .foregroundColor(Color("primary"))
                     .contentShape(Rectangle())
                     .onTapGesture {
-                        if let url = URL(string: "https://apps.apple.com/app/idYOUR_APPLE_ID") {
+                        if let url = URL(string: "https://apps.apple.com/app/id6746794834") {
                             UIApplication.shared.open(url)
                         }
                     }

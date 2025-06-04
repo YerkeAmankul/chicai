@@ -54,7 +54,7 @@ struct OutfitView: View {
                                 let item = viewModel.combinations[index]
                                 ZStack {
                                     combinationView(items: item, itemSize: CGSize(width: 100, height: 100))
-                                        .blur(radius: (IAPManager.shared.isSubscribed || index == 0) ? 0 : 15)
+                                        .blur(radius: (IAPManager.shared.isSubscribed || index == 0) ? 0 : 30)
                                 }
                                 .frame(width: UIScreen.main.bounds.width / 2.3,
                                        height: UIScreen.main.bounds.width / 2.3)

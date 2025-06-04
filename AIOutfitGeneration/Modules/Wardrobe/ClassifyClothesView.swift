@@ -2,9 +2,15 @@ import SwiftUI
 import Lottie
 
 struct ClassifyClothesView: View {
+    
+    @State private var isStartClassify: Bool = false
     @State private var step = 1 {
         didSet {
             if step == 3 {
+                if !isStartClassify {
+                    viewModel.startClassification()
+                    self.isStartClassify = true
+                }
                 showNextStep()
             }
         }
@@ -53,22 +59,20 @@ struct ClassifyClothesView: View {
                 }
                 .frame(height: 200)
                 .animation(.spring(response: 0.6, dampingFraction: 0.7), value: step)
-                .onAppear {
-                    showNextStep()
-                    viewModel.startClassification()
-                }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.white)
         }.fullScreenCover(isPresented: $viewModel.isCloseNotFound) {
             ClothesNotFoundView(images: viewModel.isCloseNotFoundImages)
                 .environmentObject(viewModel.coordinator)
+        }.task {
+            showNextStep()
         }
     }
 
     private func showNextStep() {
         for i in 1...texts.count {
-            DispatchQueue.main.asyncAfter(deadline: .now() + Double(i) * 1.5) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + Double(i) * 1) {
                 withAnimation {
                     step = i
                 }

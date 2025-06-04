@@ -44,7 +44,7 @@
             "cardigan": {
                 "season": ["fall", "winter", "spring"],
                 "weather": ["moderate", "cold", "rainy"],
-                "event": ["casual", "workwear"],
+                "event": ["casual", "workwear", "formal"],
                 "layer": ["mid"]
             }
         },
@@ -100,7 +100,7 @@
             "lab coat": {
                 "season": ["spring", "summer", "fall", "winter"],
                 "weather": ["moderate"],
-                "event": ["workwear"],
+                "event": ["workwear", "formal"],
                 "layer": ["outer"]
             }
         },
@@ -108,7 +108,7 @@
             "laboratory coat": {
                 "season": ["spring", "summer", "fall", "winter"],
                 "weather": ["moderate"],
-                "event": ["workwear"],
+                "event": ["workwear", "formal"],
                 "layer": ["outer"]
             }
         },
@@ -140,7 +140,7 @@
             "military uniform": {
                 "season": ["spring", "summer", "fall", "winter"],
                 "weather": ["moderate", "cold"],
-                "event": ["workwear"],
+                "event": ["workwear", "formal"],
                 "layer": ["outer"]
             }
         },
@@ -252,7 +252,7 @@
             "cowboy boot": {
                 "season": ["fall", "winter", "spring"],
                 "weather": ["moderate", "cold"],
-                "event": ["casual", "workwear"],
+                "event": ["casual", "workwear", "formal"],
                 "layer": ["footwear"]
             }
         },
@@ -292,7 +292,7 @@
             "cowboy hat": {
                 "season": ["spring", "summer", "fall"],
                 "weather": ["warm", "moderate"],
-                "event": ["casual", "workwear"],
+                "event": ["casual", "workwear", "formal"],
                 "layer": ["accessory"]
             }
         },
@@ -300,7 +300,7 @@
             "ten-gallon hat": {
                 "season": ["spring", "summer", "fall"],
                 "weather": ["warm", "moderate"],
-                "event": ["casual", "workwear"],
+                "event": ["casual", "workwear", "formal"],
                 "layer": ["accessory"]
             }
         },

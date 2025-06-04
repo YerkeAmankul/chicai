@@ -50,6 +50,7 @@ class ClothingClassifier {
                                     break
                                 }
                             }
+                            print("classifications.prefix(10):\(classifications.prefix(10))")
                             if let topResult = topResult {
                                 if let item = clothingDataBase.first(where: { database in
                                     return topResult.identifier.lowercased().contains(database.key.lowercased())

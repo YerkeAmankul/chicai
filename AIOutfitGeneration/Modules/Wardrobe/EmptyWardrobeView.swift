@@ -46,7 +46,7 @@ struct EmptyWardrobeView: View {
             .fullScreenCover(isPresented: $showCamera) {
                 CameraView(images: $images)
             }
-            .photosPicker(isPresented: $showGallery, selection: $selectedItems, matching: .images)
+            .photosPicker(isPresented: $showGallery, selection: $selectedItems, maxSelectionCount: 10, matching: .images)
             .onChange(of: selectedItems) { _, _ in
                 loadImages()
             }

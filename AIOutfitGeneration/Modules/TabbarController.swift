@@ -18,38 +18,22 @@ struct EmptyTabbarController: View {
             EmptyWardrobeView()
                 .environmentObject(coordinator)
                 .tabItem {
-                    VStack {
-                        Image(uiImage: UIImage(named: "visor")!.resized(to: CGSize(width: 40, height: 40)))
-                            .renderingMode(.template)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 8, height: 8)
-                        Text("Лук")
-                    }
+                    Image(uiImage: UIImage(named: "visor")!.resized(to: CGSize(width: 40, height: 40)))
+                        .renderingMode(.template)
+                    Text("Лук")
                 }
             EmptyWardrobeView()
                 .environmentObject(coordinator)
                 .tabItem {
-                    VStack {
-                        Image(uiImage: UIImage(named: "wardrobe")!.resized(to: CGSize(width: 40, height: 40)))
-                            .renderingMode(.template)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 24, height: 24)
-                        Text("Гардероб")
-                    }
+                    Image(uiImage: UIImage(named: "wardrobe")!.resized(to: CGSize(width: 40, height: 40)))
+                        .renderingMode(.template)
+                    Text("Гардероб")
                 }
             SettingsView()
                 .environmentObject(coordinator)
                 .tabItem {
-                    VStack {
-                        Image(uiImage: UIImage(systemName: "gearshape")!.resized(to: CGSize(width: 40, height: 40)))
-                            .renderingMode(.template)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 24, height: 24)
-                        Text("Настройки")
-                    }
+                    Image(uiImage: UIImage(systemName: "gearshape")!)
+                    Text("Настройки")
                 }
         }
         .background(Color.white)
@@ -74,36 +58,23 @@ struct TabbarController: View {
         TabView {
             MainView()
                 .tabItem {
-                    VStack {
-                        Image(uiImage: UIImage(named: "visor")!.resized(to: CGSize(width: 40, height: 40)))
-                            .renderingMode(.template)
-                            .resizable()
-                            .scaledToFit()
-                        Text("Лук")
-                    }
+                    Image(uiImage: UIImage(named: "visor")!.resized(to: CGSize(width: 40, height: 40)))
+                        .renderingMode(.template)
+                    Text("Лук")
                 }
             WardrobeView()
                 .environmentObject(coordinator)
                 .tabItem {
-                    VStack {
-                        Image(uiImage: UIImage(named: "wardrobe")!.resized(to: CGSize(width: 40, height: 40)))
-                            .renderingMode(.template)
-                            .resizable()
-                            .scaledToFit()
-                        Text("Гардероб")
-                    }
+                    Image(uiImage: UIImage(named: "wardrobe")!.resized(to: CGSize(width: 40, height: 40)))
+                        .renderingMode(.template)
+                    Text("Гардероб")
                 }
             SettingsView()
                 .environmentObject(coordinator)
                 .tabItem {
-                    VStack {
-                        Image(uiImage: UIImage(systemName: "gearshape")!.resized(to: CGSize(width: 26, height: 26)))
-                            .renderingMode(.template)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 24, height: 24)
-                        Text("Настройки")
-                    }
+                    Image(uiImage: UIImage(systemName: "gearshape")!)
+                        .renderingMode(.template)
+                    Text("Настройки")
                 }
         }
         .background(Color.white)
