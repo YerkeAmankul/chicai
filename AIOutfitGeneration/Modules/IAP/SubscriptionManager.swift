@@ -17,11 +17,9 @@ class SubscriptionManager: ObservableObject {
     
     func fetchSubscription() {
         if !isSubscribed() {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.8) {
-                Task {
-                    await self.requestProducts()
-                    await self.updatePurchasedProducts()
-                }
+            Task {
+                await self.requestProducts()
+                await self.updatePurchasedProducts()
             }
         }
     }

@@ -3,6 +3,7 @@ import _PhotosUI_SwiftUI
 import Lottie
 
 struct EmptyWardrobeView: View {
+    @ObservedObject private var viewModel = WardrobeViewModel()
     @State private var showBottomSheet = false
     @State private var images: [UIImage]?
     @State private var showCamera = false
@@ -15,7 +16,12 @@ struct EmptyWardrobeView: View {
     var text: String? = nil
     var showCloseButton: Bool = false
     @Environment(\.dismiss) var dismiss
-
+    private var maxFreeWardrobeCount: Int? {
+        IAPManager.shared.isSubscribed ? nil : 10
+    }
+    @State private var showIAP = false
+    @StateObject private var subscriptionManager = SubscriptionManager()
+    
     var body: some View {
         VStack {
             ZStack {
@@ -46,7 +52,10 @@ struct EmptyWardrobeView: View {
             .fullScreenCover(isPresented: $showCamera) {
                 CameraView(images: $images)
             }
-            .photosPicker(isPresented: $showGallery, selection: $selectedItems, maxSelectionCount: 10, matching: .images)
+            .photosPicker(
+                isPresented: $showGallery,
+                selection: $selectedItems,
+                maxSelectionCount: maxFreeWardrobeCount == nil ? nil : (maxFreeWardrobeCount! - viewModel.getItems().count), matching: .images)
             .onChange(of: selectedItems) { _, _ in
                 loadImages()
             }
@@ -59,6 +68,15 @@ struct EmptyWardrobeView: View {
             let viewModel = ClassifyViewModel(coordinator: coordinator, images: images ?? [])
             ClassifyClothesView(viewModel: viewModel)
                 .environmentObject(coordinator)
+        }
+        .sheet(isPresented: $showIAP) {
+            IAPView(manager: subscriptionManager)
+                .onAppear {
+                    subscriptionManager.onSubscriptionSuccess = {
+                        showIAP = false
+                        showBottomSheet = true
+                    }
+                }
         }
     }
     
@@ -126,7 +144,15 @@ struct EmptyWardrobeView: View {
     }
     
     private func add() {
-        showBottomSheet = true
+        if let maxFreeWardrobeCount {
+            if viewModel.getItems().count < maxFreeWardrobeCount {
+                showBottomSheet = true
+            } else {
+                showIAP = true
+            }
+        } else {
+            showBottomSheet = true
+        }
     }
     
     private func makeThumbnailAnimation() async throws -> LottieAnimationSource? {
