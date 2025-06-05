@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		524C78B62D89A55500F6C89A /* DominantColors in Frameworks */ = {isa = PBXBuildFile; productRef = 524C78B52D89A55500F6C89A /* DominantColors */; };
+		527462EF2DF1653900CC7CF8 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 527462EE2DF1653900CC7CF8 /* StoreKit.framework */; };
 		528C5B3F2D92CE4C009AFB53 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 528C5B3E2D92CE4C009AFB53 /* Lottie */; };
 /* End PBXBuildFile section */
 
@@ -32,6 +33,7 @@
 		524B9E3D2D895AA2002D2B03 /* AIOutfitGeneration.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AIOutfitGeneration.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		524B9E4E2D895AA3002D2B03 /* AIOutfitGenerationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AIOutfitGenerationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		524B9E582D895AA4002D2B03 /* AIOutfitGenerationUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AIOutfitGenerationUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		527462EE2DF1653900CC7CF8 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -47,6 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				527462EF2DF1653900CC7CF8 /* StoreKit.framework in Frameworks */,
 				524C78B62D89A55500F6C89A /* DominantColors in Frameworks */,
 				528C5B3F2D92CE4C009AFB53 /* Lottie in Frameworks */,
 			);
@@ -91,6 +94,7 @@
 		524C78B42D89A55500F6C89A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				527462EE2DF1653900CC7CF8 /* StoreKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

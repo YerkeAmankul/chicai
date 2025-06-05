@@ -82,7 +82,6 @@ struct OutfitView: View {
         }
         .background(Color.white)
         .onAppear {
-            subscriptionManager.fetchSubscription()
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 if !isOutfitGenerated {
                     viewModel.generateOutfit()

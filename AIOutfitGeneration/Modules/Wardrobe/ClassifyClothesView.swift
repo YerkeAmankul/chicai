@@ -6,7 +6,7 @@ struct ClassifyClothesView: View {
     @State private var isStartClassify: Bool = false
     @State private var step = 1 {
         didSet {
-            if step == 3 {
+            if step == 2 {
                 if !isStartClassify {
                     viewModel.startClassification()
                     self.isStartClassify = true
