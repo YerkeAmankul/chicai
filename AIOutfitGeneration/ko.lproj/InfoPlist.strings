@@ -1,0 +1,4 @@
+"NSPhotoLibraryUsageDescription" = "이 앱은 AI를 사용하여 매일 사진에 대한 액세스를 활용하여 특히 귀하를 위한 세련된 모습을 생성합니다";
+"NSCameraUsageDescription" = "이 앱은 AI를 활용해 매일 당신만을 위한 세련된 룩을 만들어내기 위해 카메라를 사용해 당신의 사진에 접근합니다";
+"NSPhotoLibraryAddUsageDescription" = "이 앱은 AI를 사용하여 매일 사진에 대한 액세스를 활용하여 특히 귀하를 위한 세련된 모습을 생성합니다";
+"NSLocationWhenInUseUsageDescription" = "앱은 사용자의 위치를 ​​사용하여 날씨를 파악하고 그날의 적절한 모습을 제안합니다";

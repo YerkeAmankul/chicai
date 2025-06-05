@@ -1,0 +1,4 @@
+"NSPhotoLibraryUsageDescription" = "The app uses access to photos to generate stylish looks every day using AI, especially for you";
+"NSCameraUsageDescription" = "The app uses the camera to access your photos to generate stylish looks just for you every day using AI";
+"NSPhotoLibraryAddUsageDescription" = "The app uses access to photos to generate stylish looks every day using AI, especially for you";
+"NSLocationWhenInUseUsageDescription" = "The app uses your location to determine the weather and suggest the appropriate look of the day";
