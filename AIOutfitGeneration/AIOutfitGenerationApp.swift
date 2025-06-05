@@ -4,13 +4,22 @@
 //
 //  Created by Yerkebulan Amankul on 18.03.2025.
 //
-
+import FirebaseCore
 import SwiftUI
 import StoreKit
+
+class AppDelegate: NSObject, UIApplicationDelegate {
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        FirebaseApp.configure()
+        return true
+    }
+}
 
 @main
 struct AIOutfitGenerationApp: App {
     @StateObject private var startupManager = StartupManager()
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
     var body: some Scene {
         WindowGroup {
