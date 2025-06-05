@@ -10,14 +10,8 @@ final class WardrobeFileManager {
         let encoder = JSONEncoder()
         do {
             let jsonData = try encoder.encode(wardrobeItems)
-            if let jsonString = String(data: jsonData, encoding: .utf8) {
-                print("JSON String: \(jsonString)")
-            }
-            
             let fileURL = getDocumentsDirectory().appendingPathComponent("wardrove_items.json")
-            
             try jsonData.write(to: fileURL, options: .atomic)
-            print("File saved at: \(fileURL)")
         } catch {
             print("Failed to write JSON data: \(error.localizedDescription)")
         }
@@ -30,14 +24,8 @@ final class WardrobeFileManager {
             do {
                 let encoder = JSONEncoder()
                 let jsonData = try encoder.encode(items)
-                if let jsonString = String(data: jsonData, encoding: .utf8) {
-                    print("JSON String: \(jsonString)")
-                }
-                
                 let fileURL = getDocumentsDirectory().appendingPathComponent("wardrove_items.json")
-                
                 try jsonData.write(to: fileURL, options: .atomic)
-                print("File saved at: \(fileURL)")
             } catch {
                 print("Failed to write JSON data: \(error.localizedDescription)")
             }
@@ -51,16 +39,10 @@ final class WardrobeFileManager {
             do {
                 let encoder = JSONEncoder()
                 let jsonData = try encoder.encode(items)
-                if let jsonString = String(data: jsonData, encoding: .utf8) {
-                    print("JSON String: \(jsonString)")
-                }
-                
                 let fileURL = getDocumentsDirectory().appendingPathComponent("wardrove_items.json")
-                
                 try jsonData.write(to: fileURL, options: .atomic)
                 let photoURL = getDocumentsDirectory().appendingPathComponent(fileName)
                 try FileManager.default.removeItem(at: photoURL)
-                print("File saved at: \(fileURL)")
             } catch {
                 print("Failed to write JSON data: \(error.localizedDescription)")
             }
@@ -88,7 +70,6 @@ final class WardrobeFileManager {
         let fileURL = documentsPath.appendingPathComponent(filename)
         do {
             try data.write(to: fileURL, options: .atomic)
-            print("Image saved at: \(fileURL)")
             return filename
         } catch {
             print("Error saving image: \(error.localizedDescription)")
