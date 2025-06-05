@@ -11,6 +11,8 @@ struct ClassifyClothesView: View {
                     viewModel.startClassification()
                     self.isStartClassify = true
                 }
+            }
+            if step == 3 {
                 showNextStep()
             }
         }
