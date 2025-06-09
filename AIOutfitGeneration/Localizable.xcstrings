@@ -4,6 +4,62 @@
     "" : {
 
     },
+    "* Добавляйте неограниченно одежду в гардероб" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "* Add unlimited clothes to your wardrobe"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "* Añade ropa ilimitada a tu armario"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "* 옷장에 무제한으로 옷을 추가하세요"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "* Добавляйте неограниченно одежду в гардероб"
+          }
+        }
+      }
+    },
+    "* Смотрите все образы, созданные ИИ" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "* See all AI generated looks"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "* Ver todas las imágenes generadas por IA"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "* AI가 생성한 모든 이미지 보기"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "* Смотрите все образы, созданные ИИ"
+          }
+        }
+      }
+    },
     "+" : {
       "localizations" : {
         "es" : {
@@ -558,35 +614,6 @@
         }
       }
     },
-    "год" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "year"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "año"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "년도"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "год"
-          }
-        }
-      }
-    },
     "Годовая подписка" : {
       "localizations" : {
         "en" : {
@@ -695,34 +722,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Добавить в гардероб"
-          }
-        }
-      }
-    },
-    "Добавляйте всё, что нравится. Получайте образы, которые вдохновляют. Каждый день" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add everything you love. Get inspiring outfits — every day"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Agrega todo lo que te gusta. Recibe conjuntos que inspiran — cada día"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "좋아하는 모든 옷을 추가하세요. 매일 영감을 주는 룩을 받아보세요"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Добавляйте всё, что нравится. Получайте образы, которые вдохновляют. Каждый день"
           }
         }
       }
@@ -863,35 +862,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Лук дня"
-          }
-        }
-      }
-    },
-    "месяц" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "month"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "mes"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "월"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "месяц"
           }
         }
       }
@@ -1166,6 +1136,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "От светлого к темному"
+          }
+        }
+      }
+    },
+    "Откройте полный доступ и добавляйте всё, что нравится. Получайте образы, которые вдохновляют. Каждый день" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open full access and add everything you like. Get images that inspire. Every day"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abre acceso completo y añade lo que quieras. Consigue imágenes inspiradoras. Todos los días."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "전체 이용 권한을 열고 원하는 모든 것을 추가하세요. 영감을 주는 이미지를 매일 받아보세요."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Откройте полный доступ и добавляйте всё, что нравится. Получайте образы, которые вдохновляют. Каждый день"
           }
         }
       }
