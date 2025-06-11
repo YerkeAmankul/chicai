@@ -7,9 +7,6 @@ class StartupManager: ObservableObject {
 
     func initialize() async {
         await updatePurchasedProducts()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.isReady = true
-        }
     }
 
     private func updatePurchasedProducts() async {
@@ -20,5 +17,6 @@ class StartupManager: ObservableObject {
             }
         }
         IAPManager.shared.isSubscribed = !purchasedIDs.isEmpty
+        isReady = true
     }
 }
