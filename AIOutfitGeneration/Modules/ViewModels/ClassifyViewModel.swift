@@ -2,7 +2,7 @@ import SwiftUI
 import DominantColors
 import VisionKit
 
-final class ClassifyViewModel: ObservableObject {
+@MainActor final class ClassifyViewModel: ObservableObject {
     @Published var isCloseNotFound: Bool = false
     var isCloseNotFoundImages: [UIImage] = []
     let coordinator: TabBarCoordinator
@@ -16,7 +16,8 @@ final class ClassifyViewModel: ObservableObject {
     }
     
     func startClassification() {
-        Task {
+        Task { [weak self] in
+            guard let self else { return }
             let results = await clothingClassifier?.classifyClothing(in: images)
             var imagesForExtractColor: [(ClothingItem, UIImage)] = []
             for result in results ?? [] {
@@ -30,7 +31,9 @@ final class ClassifyViewModel: ObservableObject {
                     areThereImagesNotFound = true
                 }
             }
-            extractColor(images: imagesForExtractColor)
+            DispatchQueue.main.async {
+                self.extractColor(images: imagesForExtractColor)
+            }
         }
     }
     

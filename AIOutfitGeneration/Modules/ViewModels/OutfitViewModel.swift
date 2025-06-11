@@ -305,8 +305,10 @@ final class OutfitViewModel: ObservableObject {
                         print("Error decoding data: \(error.localizedDescription)")
                     }
                 }.resume()
-            case let .failure(failure):
-                print(failure)
+            case .failure:
+                DispatchQueue.main.async {
+                    self.generate(weather: nil)
+                }
             }
         }
     }
